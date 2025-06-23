@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "name": "ceode4",
+  "alias": [
+    "tinyimgtool.com",
+    "www.tinyimgtool.com"
+  ],
+  "regions": [
+    "hkg1",
+    "nrt1",
+    "sfo1"
+  ],
+  "github": {
+    "silent": true
+  },
+  "functions": {
+    "app/**": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}
