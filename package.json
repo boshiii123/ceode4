@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@next/swc-win32-x64-msvc": "^15.3.4",
     "autoprefixer": "^10.4.16",
     "browser-image-compression": "^2.0.2",
     "file-saver": "^2.0.5",
