@@ -5,17 +5,12 @@
     "tinyimgtool.com",
     "www.tinyimgtool.com"
   ],
-  "regions": [
-    "hkg1",
-    "nrt1",
-    "sfo1"
-  ],
   "github": {
     "silent": true
   },
   "functions": {
     "app/**": {
-      "maxDuration": 10
+      "maxDuration": 30
     }
   },
   "headers": [
@@ -56,5 +51,7 @@
       "destination": "/",
       "permanent": true
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next"
 }
