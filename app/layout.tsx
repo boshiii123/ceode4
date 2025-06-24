@@ -78,6 +78,69 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Structured Data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://tinyimgtool.com/#webapp",
+        "name": "CompressLab WebP Compressor",
+        "url": "https://tinyimgtool.com",
+        "description": "Free online WebP compressor tool to compress WebP images, reduce file size, and convert between image formats",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Web Browser",
+        "permissions": "No upload required - 100% client-side processing",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "WebP image compression",
+          "Format conversion (WebP, JPEG, PNG, AVIF)",
+          "Batch processing up to 20 images",
+          "Precise size control (100KB, 200KB, 300KB)",
+          "Client-side processing for privacy"
+        ],
+        "screenshot": "https://tinyimgtool.com/og-image.svg"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://tinyimgtool.com/#software",
+        "name": "CompressLab Image Compressor",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "permissions": "No server upload required",
+        "downloadUrl": "https://tinyimgtool.com",
+        "softwareVersion": "1.0.0",
+        "releaseNotes": "Professional image compression with precise size control"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://tinyimgtool.com/#organization",
+        "name": "CompressLab",
+        "url": "https://tinyimgtool.com",
+        "logo": "https://tinyimgtool.com/logo.svg",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://tinyimgtool.com/#website",
+        "name": "CompressLab - Free WebP Compressor",
+        "url": "https://tinyimgtool.com",
+        "publisher": {
+          "@id": "https://tinyimgtool.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://tinyimgtool.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+
   return (
     <html lang="en">
       <head>
@@ -87,6 +150,24 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DPRB9HN0ED"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-DPRB9HN0ED');
+            `,
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body className={inter.className}>
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">

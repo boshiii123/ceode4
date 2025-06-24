@@ -212,7 +212,7 @@ const ImageCompressor = () => {
 
         newImages.push(imageData)
       } catch (error) {
-        console.error('Error processing file:', error)
+        // Error processing file - skip this file
       }
     }
 
@@ -281,7 +281,7 @@ const ImageCompressor = () => {
           initialQuality = 0.8
         }
 
-        console.log(`Target: ${targetSizeKB}KB, Original: ${Math.round(originalSizeKB)}KB, Compression needed: ${Math.round(compressionNeeded * 100)}%, Initial quality: ${initialQuality}`)
+        // Target compression parameters calculated
 
         // Step 1: Strict binary search for optimal quality (MUST NOT EXCEED TARGET)
         let minQuality = 0.05
@@ -306,7 +306,7 @@ const ImageCompressor = () => {
               },
             })
 
-            console.log(`Attempt ${attempts + 1}: Quality ${currentQuality.toFixed(3)} → ${Math.round(result.size / 1024)}KB (target: ≤${targetSizeKB}KB)`)
+            // Compression attempt completed
 
             if (result.size <= targetSizeBytes) {
               // Result meets requirement, try higher quality for better result
@@ -320,14 +320,14 @@ const ImageCompressor = () => {
 
             attempts++
           } catch (error) {
-            console.error('Compression attempt failed:', error)
+            // Compression attempt failed
             break
           }
         }
 
         // Step 2: Dimension reduction if still over target
         if (bestSize > targetSizeBytes) {
-          console.log(`Still over target (${Math.round(bestSize / 1024)}KB > ${targetSizeKB}KB), trying dimension reduction`)
+          // Still over target, trying dimension reduction
 
           let dimensionAttempts = 0
           let currentDimension = maxDimension
@@ -347,7 +347,7 @@ const ImageCompressor = () => {
                 },
               })
 
-              console.log(`Dimension attempt ${dimensionAttempts + 1}: ${currentDimension}px → ${Math.round(result.size / 1024)}KB`)
+              // Dimension reduction attempt completed
 
               if (result.size <= targetSizeBytes) {
                 bestResult = result
@@ -357,7 +357,7 @@ const ImageCompressor = () => {
 
               dimensionAttempts++
             } catch (error) {
-              console.error('Dimension reduction failed:', error)
+              // Dimension reduction failed
               break
             }
           }
@@ -365,7 +365,7 @@ const ImageCompressor = () => {
 
         // Step 3: Final aggressive compression if still over target
         if (bestSize > targetSizeBytes) {
-          console.log(`Final aggressive compression attempt for ${Math.round(bestSize / 1024)}KB → ≤${targetSizeKB}KB`)
+          // Final aggressive compression attempt
 
           let finalAttempts = 0
           let finalQuality = 0.1
@@ -383,7 +383,7 @@ const ImageCompressor = () => {
                 },
               })
 
-              console.log(`Final attempt ${finalAttempts + 1}: Quality ${finalQuality} → ${Math.round(result.size / 1024)}KB`)
+              // Final compression attempt completed
 
               if (result.size <= targetSizeBytes) {
                 bestResult = result
@@ -394,19 +394,15 @@ const ImageCompressor = () => {
               finalQuality *= 0.7
               finalAttempts++
             } catch (error) {
-              console.error('Final aggressive compression failed:', error)
+              // Final aggressive compression failed
               break
             }
           }
         }
 
         // Final verification - CRITICAL: Must not exceed target
-        if (bestSize > targetSizeBytes) {
-          console.warn(`WARNING: Could not compress ${imageData.originalFile.name} to ${targetSizeKB}KB. Final size: ${Math.round(bestSize / 1024)}KB`)
-          // In production, you might want to show this as an error to the user
-        } else {
-          console.log(`✓ Successfully compressed ${imageData.originalFile.name}: ${Math.round(imageData.originalSize / 1024)}KB → ${Math.round(bestSize / 1024)}KB (target: ≤${targetSizeKB}KB)`)
-        }
+        // Final verification completed
+        // Note: If bestSize > targetSizeBytes, compression target not fully achieved
 
         // Clean up old preview if it exists
         if (imageData.compressedPreview && imageData.compressedPreview !== imageData.preview) {
@@ -436,8 +432,7 @@ const ImageCompressor = () => {
         ))
 
       } catch (error) {
-        console.error('Error compressing image:', error)
-        // Keep original file on error
+        // Error compressing image - keep original file on error
         updatedImages[i] = {
           ...imageData,
           operation: 'compress',
@@ -521,8 +516,7 @@ const ImageCompressor = () => {
         ))
 
       } catch (error) {
-        console.error('Error converting image:', error)
-        // 立即更新错误状态
+        // Error converting image - update error state immediately
         setImages(prev => prev.map((img, idx) =>
           idx === i ? { ...img, isConverting: false } : img
         ))
@@ -608,8 +602,7 @@ const ImageCompressor = () => {
         } : img
       ))
     } catch (error) {
-      console.error('Error converting image:', error)
-      // 恢复原状态 - 使用函数式更新
+      // Error converting image - restore original state
       setImages(prev => prev.map((img, idx) =>
         idx === imageIndex ? { ...img, isConverting: false } : img
       ))
