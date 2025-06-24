@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
-import { Download, Upload, X, Settings, Zap, RefreshCw, RotateCcw, CheckCircle, FileImage, Info, Sliders } from 'lucide-react'
+import { Download, Upload, X, Settings, Zap, RefreshCw, RotateCcw, CheckCircle, FileImage, Info, Sliders, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CompressedImage {
   file: File
@@ -659,6 +659,40 @@ const ImageCompressor = () => {
           </p>
         </div>
 
+        {/* Mobile Quick Actions Bar - Fixed at top on mobile */}
+        <div className="lg:hidden mb-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 p-4 sticky top-4 z-10">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-gray-900 flex items-center">
+              <Zap className="w-5 h-5 mr-2 text-blue-500" />
+              Quick Compress
+            </h3>
+            {isProcessing && compressingImageIndex !== null && (
+              <div className="flex items-center text-xs text-blue-600">
+                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse mr-2"></div>
+                Processing...
+              </div>
+            )}
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {[100, 200, 300].map((size) => (
+              <button
+                key={size}
+                onClick={() => quickCompress(size)}
+                disabled={images.length === 0 || isProcessing}
+                className={`py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${selectedQuickSize === size
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25'
+                  : 'bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 hover:border-gray-300'
+                  }`}
+              >
+                {size}KB
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            Tap to compress all images to target size
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Settings Panel - Improved Design */}
           <div className="lg:col-span-1">
@@ -1001,145 +1035,358 @@ const ImageCompressor = () => {
 
             {/* Results List - Clean & Compact */}
             {images.length > 0 && (
-              <div className="space-y-3">
-                {images.map((image, index) => (
+              <>
+                {/* Mobile Horizontal Scroll View - Optimized */}
+                <div className="lg:hidden relative">
+                  {/* Navigation Arrows - Only show when there are multiple images */}
+                  {images.length > 1 && (
+                    <>
+                      <button
+                        onClick={() => {
+                          const container = document.getElementById('mobile-image-container');
+                          if (container) {
+                            container.scrollBy({ left: -336, behavior: 'smooth' });
+                            // Update index after scroll animation
+                            setTimeout(() => {
+                              const scrollLeft = container.scrollLeft;
+                              const cardWidth = 336; // card width + gap
+                              const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
+                              const indexElement = document.getElementById('current-image-index');
+                              if (indexElement) {
+                                indexElement.textContent = Math.min(Math.max(currentIndex, 1), images.length).toString();
+                              }
+                            }, 300);
+                          }
+                        }}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-2 shadow-lg transition-all duration-200 border border-gray-200"
+                        title="Previous image"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          const container = document.getElementById('mobile-image-container');
+                          if (container) {
+                            container.scrollBy({ left: 336, behavior: 'smooth' });
+                            // Update index after scroll animation
+                            setTimeout(() => {
+                              const scrollLeft = container.scrollLeft;
+                              const cardWidth = 336; // card width + gap
+                              const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
+                              const indexElement = document.getElementById('current-image-index');
+                              if (indexElement) {
+                                indexElement.textContent = Math.min(Math.max(currentIndex, 1), images.length).toString();
+                              }
+                            }, 300);
+                          }
+                        }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-2 shadow-lg transition-all duration-200 border border-gray-200"
+                        title="Next image"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </>
+                  )}
+
+                  {/* Image Counter with Current Position */}
+                  {images.length > 1 && (
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <span id="current-image-index">1</span> / {images.length}
+                    </div>
+                  )}
+
                   <div
-                    key={index}
-                    className={`bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-xl ${convertingImageIndex === index || image.isConverting ? 'ring-2 ring-green-400 shadow-green-100' : ''
-                      } ${compressingImageIndex === index ? 'ring-2 ring-blue-400 shadow-blue-100' : ''
-                      }`}
+                    id="mobile-image-container"
+                    className="flex space-x-4 overflow-x-auto pb-4 px-4 snap-x snap-mandatory scrollbar-hide"
+                    onScroll={(e) => {
+                      // Calculate current visible image index based on scroll position
+                      const container = e.target as HTMLElement;
+                      const scrollLeft = container.scrollLeft;
+                      const cardWidth = 336; // card width (320) + gap (16)
+                      const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
+                      const indexElement = document.getElementById('current-image-index');
+                      if (indexElement) {
+                        indexElement.textContent = Math.min(Math.max(currentIndex, 1), images.length).toString();
+                      }
+                    }}
                   >
-                    <div className="p-5">
-                      <div className="flex items-center gap-4">
-                        {/* Image Preview - Professional Size */}
-                        <div className="relative w-20 h-20 flex-shrink-0">
-                          <div className="w-full h-full relative overflow-hidden bg-gray-100 rounded-xl shadow-sm">
-                            {(convertingImageIndex === index || compressingImageIndex === index || image.isConverting) && (
-                              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 rounded-lg">
-                                {(convertingImageIndex === index || image.isConverting) && (
-                                  <RefreshCw className="w-4 h-4 animate-spin text-green-400" />
+                    {images.map((image, index) => (
+                      <div
+                        key={index}
+                        className={`bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-xl flex-shrink-0 w-80 snap-center ${convertingImageIndex === index || image.isConverting ? 'ring-2 ring-green-400 shadow-green-100' : ''
+                          } ${compressingImageIndex === index ? 'ring-2 ring-blue-400 shadow-blue-100' : ''}`}
+                      >
+                        <div className="p-4">
+                          <div className="flex flex-col space-y-4">
+                            {/* Image Preview - Medium size for mobile */}
+                            <div className="relative w-full h-40 flex-shrink-0">
+                              <div className="w-full h-full relative overflow-hidden bg-gray-100 rounded-xl shadow-sm">
+                                {(convertingImageIndex === index || compressingImageIndex === index || image.isConverting) && (
+                                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 rounded-lg">
+                                    {(convertingImageIndex === index || image.isConverting) && (
+                                      <RefreshCw className="w-5 h-5 animate-spin text-green-400" />
+                                    )}
+                                    {compressingImageIndex === index && (
+                                      <Zap className="w-5 h-5 animate-spin text-blue-400" />
+                                    )}
+                                  </div>
                                 )}
-                                {compressingImageIndex === index && (
-                                  <Zap className="w-4 h-4 animate-spin text-blue-400" />
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={image.compressedPreview}
+                                  alt={`Compressed ${image.originalFile.name}`}
+                                  className="w-full h-full object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                            </div>
+
+                            {/* File Info - Mobile optimized */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between mb-3">
+                                <h3 className="text-sm font-medium text-gray-900 truncate flex-1 mr-2">
+                                  {image.originalFile.name}
+                                </h3>
+                                {/* Status Badge */}
+                                {compressingImageIndex === index ? (
+                                  <div className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                                    <Zap className="w-3 h-3 mr-1 animate-spin" />
+                                    Compressing
+                                  </div>
+                                ) : (convertingImageIndex === index || image.isConverting) ? (
+                                  <div className="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
+                                    <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                                    Converting
+                                  </div>
+                                ) : image.operation === 'convert' ? (
+                                  <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                                    <CheckCircle className="w-3 h-3 mr-1" />
+                                    Converted
+                                  </div>
+                                ) : (
+                                  <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                                    <CheckCircle className="w-3 h-3 mr-1" />
+                                    Compressed
+                                  </div>
                                 )}
                               </div>
-                            )}
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={image.compressedPreview}
-                              alt={`Compressed ${image.originalFile.name}`}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
+
+                              <div className="space-y-2 text-xs text-gray-600 mb-4">
+                                <div className="flex items-center justify-center space-x-2">
+                                  <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.originalFormat)}`}>
+                                    {image.originalFormat.toUpperCase()}
+                                  </span>
+                                  <span className="text-gray-400">→</span>
+                                  <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.finalFormat)}`}>
+                                    {image.finalFormat.toUpperCase()}
+                                  </span>
+                                </div>
+                                <div className="text-center">
+                                  <div className="text-gray-500 mb-1">Size: {formatFileSize(image.originalSize)} → {formatFileSize(image.compressedSize)}</div>
+                                </div>
+                                <div className="text-green-600 font-bold text-center text-sm bg-green-50 py-2 px-3 rounded-lg">
+                                  {image.compressionRatio}% space saved
+                                </div>
+                              </div>
+
+                              {/* Format Conversion Buttons - Larger for mobile */}
+                              <div className="space-y-3">
+                                <div className="grid grid-cols-2 gap-2">
+                                  {['webp', 'jpeg', 'png', 'avif'].map((format) => (
+                                    <button
+                                      key={format}
+                                      onClick={() => convertSingleImage(index, format as 'webp' | 'jpeg' | 'png' | 'avif')}
+                                      disabled={image.isConverting || isProcessing}
+                                      className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
+                                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
+                                        }`}
+                                    >
+                                      {format.toUpperCase()}
+                                    </button>
+                                  ))}
+                                </div>
+
+                                {/* Action Buttons - Larger for mobile */}
+                                <div className="grid grid-cols-3 gap-2">
+                                  <button
+                                    onClick={() => resetImage(index)}
+                                    disabled={image.isConverting || isProcessing}
+                                    className="flex items-center justify-center px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400"
+                                    title="Reset to original"
+                                  >
+                                    <RotateCcw className="w-4 h-4 mr-1" />
+                                    <span className="text-xs font-medium">Reset</span>
+                                  </button>
+
+                                  <button
+                                    onClick={() => downloadImage(image)}
+                                    className="flex items-center justify-center px-3 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg transition-all duration-200 shadow-md"
+                                    title="Download image"
+                                  >
+                                    <Download className="w-4 h-4 mr-1" />
+                                    <span className="text-xs font-medium">Download</span>
+                                  </button>
+
+                                  <button
+                                    onClick={() => removeImage(index)}
+                                    className="flex items-center justify-center px-3 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 shadow-md"
+                                    title="Remove image"
+                                  >
+                                    <X className="w-4 h-4 mr-1" />
+                                    <span className="text-xs font-medium">Remove</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                        {/* File Info - Compact */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center mb-2">
-                            <h3 className="text-sm font-medium text-gray-900 truncate mr-3">
-                              {image.originalFile.name}
-                            </h3>
-                            {/* Dynamic Status Display */}
-                            {compressingImageIndex === index ? (
-                              <div className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
-                                <Zap className="w-3 h-3 mr-1 animate-spin" />
-                                Compressing...
-                              </div>
-                            ) : (convertingImageIndex === index || image.isConverting) ? (
-                              <div className="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-medium">
-                                <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
-                                Converting...
-                              </div>
-                            ) : image.operation === 'convert' ? (
-                              <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-                                <CheckCircle className="w-3 h-3 mr-1" />
-                                ✅ Converted to {image.finalFormat.toUpperCase()}
-                              </div>
-                            ) : (
-                              <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-                                <CheckCircle className="w-3 h-3 mr-1" />
-                                ✅ Compressed
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="flex items-center space-x-4 text-xs text-gray-600 mb-3">
-                            <div className="flex items-center space-x-1">
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.originalFormat)}`}>
-                                {image.originalFormat.toUpperCase()}
-                              </span>
-                              <span>→</span>
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.finalFormat)}`}>
-                                {image.finalFormat.toUpperCase()}
-                              </span>
-                            </div>
-                            <div>{formatFileSize(image.originalSize)} → {formatFileSize(image.compressedSize)}</div>
-                            <div className="text-green-600 font-medium">{image.compressionRatio}% saved</div>
-                          </div>
-
-                          {/* Format Conversion Buttons - Professional */}
-                          <div className="flex items-center justify-between mt-3">
-                            <div className="flex items-center space-x-2">
-                              {['webp', 'jpeg', 'png', 'avif'].map((format) => (
-                                <button
-                                  key={format}
-                                  onClick={() => convertSingleImage(index, format as 'webp' | 'jpeg' | 'png' | 'avif')}
-                                  disabled={image.isConverting || isProcessing}
-                                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
-                                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
-                                    }`}
-                                >
-                                  {image.isConverting && format === image.finalFormat ? (
-                                    <div className="flex items-center">
-                                      <RefreshCw className="w-3 h-3 animate-spin mr-1" />
-                                      <span className="text-xs">Converting</span>
-                                    </div>
-                                  ) : (
-                                    format.toUpperCase()
+                {/* Desktop Vertical List */}
+                <div className="hidden lg:block space-y-3">
+                  {images.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-xl ${convertingImageIndex === index || image.isConverting ? 'ring-2 ring-green-400 shadow-green-100' : ''
+                        } ${compressingImageIndex === index ? 'ring-2 ring-blue-400 shadow-blue-100' : ''}`}
+                    >
+                      <div className="p-5">
+                        <div className="flex items-center gap-4">
+                          {/* Image Preview - Professional Size */}
+                          <div className="relative w-20 h-20 flex-shrink-0">
+                            <div className="w-full h-full relative overflow-hidden bg-gray-100 rounded-xl shadow-sm">
+                              {(convertingImageIndex === index || compressingImageIndex === index || image.isConverting) && (
+                                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 rounded-lg">
+                                  {(convertingImageIndex === index || image.isConverting) && (
+                                    <RefreshCw className="w-4 h-4 animate-spin text-green-400" />
                                   )}
-                                </button>
-                              ))}
+                                  {compressingImageIndex === index && (
+                                    <Zap className="w-4 h-4 animate-spin text-blue-400" />
+                                  )}
+                                </div>
+                              )}
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={image.compressedPreview}
+                                alt={`Compressed ${image.originalFile.name}`}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+
+                          {/* File Info - Compact */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center mb-2">
+                              <h3 className="text-sm font-medium text-gray-900 truncate mr-3">
+                                {image.originalFile.name}
+                              </h3>
+                              {/* Dynamic Status Display */}
+                              {compressingImageIndex === index ? (
+                                <div className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                                  <Zap className="w-3 h-3 mr-1 animate-spin" />
+                                  Compressing...
+                                </div>
+                              ) : (convertingImageIndex === index || image.isConverting) ? (
+                                <div className="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-medium">
+                                  <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                                  Converting...
+                                </div>
+                              ) : image.operation === 'convert' ? (
+                                <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  ✅ Converted to {image.finalFormat.toUpperCase()}
+                                </div>
+                              ) : (
+                                <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  ✅ Compressed
+                                </div>
+                              )}
                             </div>
 
-                            {/* Action Buttons - Professional */}
-                            <div className="flex items-center space-x-2">
-                              <button
-                                onClick={() => resetImage(index)}
-                                disabled={image.isConverting || isProcessing}
-                                className="flex items-center px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400"
-                                title="Reset to original compressed state"
-                              >
-                                <RotateCcw className="w-3 h-3 mr-1" />
-                                <span className="text-xs font-medium">Reset</span>
-                              </button>
+                            <div className="flex items-center space-x-4 text-xs text-gray-600 mb-3">
+                              <div className="flex items-center space-x-1">
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.originalFormat)}`}>
+                                  {image.originalFormat.toUpperCase()}
+                                </span>
+                                <span>→</span>
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${getFormatColor(image.finalFormat)}`}>
+                                  {image.finalFormat.toUpperCase()}
+                                </span>
+                              </div>
+                              <div>{formatFileSize(image.originalSize)} → {formatFileSize(image.compressedSize)}</div>
+                              <div className="text-green-600 font-medium">{image.compressionRatio}% saved</div>
+                            </div>
 
-                              <button
-                                onClick={() => downloadImage(image)}
-                                className="flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg transition-all duration-200 shadow-md"
-                                title="Download compressed image"
-                              >
-                                <Download className="w-3 h-3 mr-1" />
-                                <span className="text-xs font-medium">Download</span>
-                              </button>
+                            {/* Format Conversion Buttons - Professional */}
+                            <div className="flex items-center justify-between mt-3">
+                              <div className="flex items-center space-x-2">
+                                {['webp', 'jpeg', 'png', 'avif'].map((format) => (
+                                  <button
+                                    key={format}
+                                    onClick={() => convertSingleImage(index, format as 'webp' | 'jpeg' | 'png' | 'avif')}
+                                    disabled={image.isConverting || isProcessing}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
+                                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
+                                      }`}
+                                  >
+                                    {image.isConverting && format === image.finalFormat ? (
+                                      <div className="flex items-center">
+                                        <RefreshCw className="w-3 h-3 animate-spin mr-1" />
+                                        <span className="text-xs">Converting</span>
+                                      </div>
+                                    ) : (
+                                      format.toUpperCase()
+                                    )}
+                                  </button>
+                                ))}
+                              </div>
 
-                              <button
-                                onClick={() => removeImage(index)}
-                                className="flex items-center px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 shadow-md"
-                                title="Remove from list"
-                              >
-                                <X className="w-3 h-3 mr-1" />
-                                <span className="text-xs font-medium">Remove</span>
-                              </button>
+                              {/* Action Buttons - Professional */}
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => resetImage(index)}
+                                  disabled={image.isConverting || isProcessing}
+                                  className="flex items-center px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400"
+                                  title="Reset to original compressed state"
+                                >
+                                  <RotateCcw className="w-3 h-3 mr-1" />
+                                  <span className="text-xs font-medium">Reset</span>
+                                </button>
+
+                                <button
+                                  onClick={() => downloadImage(image)}
+                                  className="flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg transition-all duration-200 shadow-md"
+                                  title="Download compressed image"
+                                >
+                                  <Download className="w-3 h-3 mr-1" />
+                                  <span className="text-xs font-medium">Download</span>
+                                </button>
+
+                                <button
+                                  onClick={() => removeImage(index)}
+                                  className="flex items-center px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-200 shadow-md"
+                                  title="Remove from list"
+                                >
+                                  <X className="w-3 h-3 mr-1" />
+                                  <span className="text-xs font-medium">Remove</span>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </>
             )}
 
             {/* Empty State */}
