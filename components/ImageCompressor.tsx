@@ -3,6 +3,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
 import { Download, Upload, X, Settings, Zap, RefreshCw, RotateCcw, CheckCircle, FileImage, Info, Sliders, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ImageProcessorV2, ProcessResult } from '../lib/ImageProcessorV2'
+import { FormatDetector, FormatInfo } from '../lib/FormatDetector'
 
 interface CompressedImage {
   file: File
@@ -31,6 +33,11 @@ interface CompressedImage {
     compressionRatio: number
   }
   isConverting?: boolean
+  // 新增字段 - V2引擎支持
+  formatInfo?: FormatInfo
+  processingTime?: number
+  iterations?: number
+  v2Processing?: boolean
 }
 
 const ImageCompressor = () => {
@@ -136,53 +143,86 @@ const ImageCompressor = () => {
         // Create preview
         const preview = URL.createObjectURL(file)
 
-        // Get original format
-        const originalFormat = getFileFormat(file)
+        // 使用新的格式检测器
+        const formatInfo = await FormatDetector.detectAdvancedFormat(file)
+        const originalFormat = formatInfo.format
 
-        // Smart initial compression based on file size
-        let compressedFile
-        const fileSizeMB = file.size / (1024 * 1024)
+        console.log(`📁 Format detected: ${originalFormat} (${formatInfo.category})`)
 
-        if (fileSizeMB > 5) {
-          // Large files: aggressive compression
-          compressedFile = await imageCompression(file, {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1600,
-            useWebWorker: true,
-            initialQuality: 0.6,
+        // 检查格式支持
+        if (!formatInfo.isSupported) {
+          console.warn(`⚠️ Unsupported format: ${originalFormat}`)
+          continue // 跳过不支持的格式
+        }
+
+        // 使用V2引擎进行初始压缩
+        let compressedFile: File
+        let initialCompressionRatio: number
+
+        try {
+          const result = await ImageProcessorV2.processImage(file, {
+            operation: 'compress',
+            maxWidth,
+            maxHeight,
             onProgress: (progress: number) => {
               const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
               setProcessingProgress(Math.round(totalProgress))
-            },
+            }
           })
-        } else if (fileSizeMB > 2) {
-          // Medium files: moderate compression
-          compressedFile = await imageCompression(file, {
-            maxSizeMB: 0.8,
-            maxWidthOrHeight: Math.max(maxWidth, maxHeight),
-            useWebWorker: true,
-            initialQuality: 0.7,
-            onProgress: (progress: number) => {
-              const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
-              setProcessingProgress(Math.round(totalProgress))
-            },
-          })
-        } else {
-          // Small files: light compression
-          compressedFile = await imageCompression(file, {
-            maxSizeMB: 10,
-            maxWidthOrHeight: Math.max(maxWidth, maxHeight),
-            useWebWorker: true,
-            initialQuality: 0.8, // Fixed quality for small files
-            onProgress: (progress: number) => {
-              const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
-              setProcessingProgress(Math.round(totalProgress))
-            },
-          })
+
+          compressedFile = result.file
+          initialCompressionRatio = result.compressionRatio
+
+          console.log(`✅ V2 engine processing successful: ${formatInfo.format} → ${(result.processedSize / 1024).toFixed(1)}KB`)
+
+        } catch (v2Error) {
+          console.warn(`⚠️ V2 engine failed, falling back to legacy method:`, v2Error)
+
+          // 回退到传统压缩方法
+          const fileSizeMB = file.size / (1024 * 1024)
+
+          if (fileSizeMB > 5) {
+            // Large files: aggressive compression
+            compressedFile = await imageCompression(file, {
+              maxSizeMB: 1,
+              maxWidthOrHeight: 1600,
+              useWebWorker: true,
+              initialQuality: 0.6,
+              onProgress: (progress: number) => {
+                const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
+                setProcessingProgress(Math.round(totalProgress))
+              },
+            })
+          } else if (fileSizeMB > 2) {
+            // Medium files: moderate compression
+            compressedFile = await imageCompression(file, {
+              maxSizeMB: 0.8,
+              maxWidthOrHeight: Math.max(maxWidth, maxHeight),
+              useWebWorker: true,
+              initialQuality: 0.7,
+              onProgress: (progress: number) => {
+                const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
+                setProcessingProgress(Math.round(totalProgress))
+              },
+            })
+          } else {
+            // Small files: light compression
+            compressedFile = await imageCompression(file, {
+              maxSizeMB: 10,
+              maxWidthOrHeight: Math.max(maxWidth, maxHeight),
+              useWebWorker: true,
+              initialQuality: 0.8, // Fixed quality for small files
+              onProgress: (progress: number) => {
+                const totalProgress = ((i + progress / 100) / filesToProcess.length) * 100
+                setProcessingProgress(Math.round(totalProgress))
+              },
+            })
+          }
+
+          initialCompressionRatio = Math.round((1 - compressedFile.size / file.size) * 100)
         }
 
         const compressedPreview = URL.createObjectURL(compressedFile)
-        const initialCompressionRatio = Math.round((1 - compressedFile.size / file.size) * 100)
 
         const imageData: CompressedImage = {
           file: compressedFile,
@@ -207,11 +247,15 @@ const ImageCompressor = () => {
             size: compressedFile.size,
             format: originalFormat,
             compressionRatio: initialCompressionRatio
-          }
+          },
+          // V2新增字段
+          formatInfo,
+          v2Processing: true
         }
 
         newImages.push(imageData)
-      } catch (error) {
+      } catch (error: any) {
+        console.error(`Processing file ${file.name} failed:`, error)
         // Error processing file - skip this file
       }
     }
@@ -236,6 +280,104 @@ const ImageCompressor = () => {
   }, [images.length, uploadWarning, maxImages])
 
   const quickCompress = async (targetSizeKB: number) => {
+    if (images.length === 0) return
+
+    setSelectedQuickSize(targetSizeKB)
+    setIsProcessing(true)
+    setProcessingProgress(0)
+
+    console.log(`🎯 Starting batch quick compression to ${targetSizeKB}KB`)
+
+    try {
+      // 准备文件列表
+      const filesToProcess = images.map(img => img.originalFile)
+
+      // 使用新的V2引擎进行批量处理
+      const results = await ImageProcessorV2.quickCompressBatch(
+        filesToProcess,
+        targetSizeKB,
+        (current, total, fileName) => {
+          setCurrentFileName(fileName)
+          setCurrentFileIndex(current)
+          setTotalFiles(total)
+          setCompressingImageIndex(current - 1)
+          setProcessingProgress(Math.round((current / total) * 100))
+        }
+      )
+
+      // 处理结果并更新状态
+      const updatedImages = images.map((imageData, index) => {
+        const result = results[index]
+
+        if (result.success) {
+          // 清理旧的预览
+          if (imageData.compressedPreview && imageData.compressedPreview !== imageData.preview) {
+            URL.revokeObjectURL(imageData.compressedPreview)
+          }
+
+          const compressedPreview = URL.createObjectURL(result.file)
+
+          return {
+            ...imageData,
+            file: result.file,
+            compressedFile: result.file,
+            compressedPreview,
+            compressedSize: result.processedSize,
+            compressionRatio: result.compressionRatio,
+            operation: 'compress' as const,
+            settings: {
+              ...imageData.settings,
+              quickCompressSize: targetSizeKB,
+            },
+            // V2新增字段
+            formatInfo: result.formatInfo,
+            processingTime: result.processingTime,
+            iterations: result.iterations,
+            v2Processing: true
+          }
+        } else {
+          // 处理失败，保持原文件
+          console.error(`Compression of ${imageData.originalFile.name} failed`)
+          return {
+            ...imageData,
+            operation: 'compress' as const,
+            settings: {
+              ...imageData.settings,
+              quickCompressSize: targetSizeKB,
+            }
+          }
+        }
+      })
+
+      setImages(updatedImages)
+
+      // 统计结果
+      const successCount = results.filter(r => r.success).length
+      const failCount = results.length - successCount
+
+      if (successCount === results.length) {
+        console.log(`✅ All ${successCount} images compressed successfully`)
+        // 这里可以添加成功通知
+      } else {
+        console.warn(`⚠️ ${successCount} successful, ${failCount} failed`)
+        // 这里可以添加部分失败通知
+      }
+
+    } catch (error: any) {
+      console.error('❌ Batch compression failed:', error)
+      // 这里可以添加错误通知
+    } finally {
+      setIsProcessing(false)
+      setProcessingProgress(0)
+      setCompressingImageIndex(null)
+      setCurrentFileName('')
+      setCurrentFileIndex(0)
+      setTotalFiles(0)
+    }
+  }
+
+  // 备用方法：如果V2引擎失败，回退到原始方法
+  const quickCompressLegacy = async (targetSizeKB: number) => {
     if (images.length === 0) return
 
     setSelectedQuickSize(targetSizeKB)
@@ -1010,7 +1152,7 @@ const ImageCompressor = () => {
                   <input
                     type="file"
                     multiple
-                    accept="image/*"
+                    accept="image/*,.avif,.heif,.heic,.psd,.cr2,.dng,.raw,.tiff,.tif"
                     onChange={handleFileInput}
                     className="hidden"
                     id="file-upload"
@@ -1027,7 +1169,7 @@ const ImageCompressor = () => {
                     {isProcessing ? 'Processing...' : images.length >= maxImages ? 'Maximum Reached' : 'Choose Files'}
                   </label>
                   <p className="text-sm text-gray-500 mt-3">
-                    Supports: JPG, PNG, GIF, WebP, AVIF, BMP, TIFF
+                    Supports: JPG, PNG, GIF, WebP, AVIF, HEIF, BMP, TIFF, SVG, PSD, RAW, DNG, CR2
                   </p>
                 </div>
               </div>
