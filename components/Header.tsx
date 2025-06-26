@@ -2,14 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Image, Download, Settings } from 'lucide-react'
+import Image from 'next/image'
+import { Menu, X, Image as ImageIcon, Download, Settings } from 'lucide-react'
 
 // Logo组件
 const CompressLabLogo = () => (
   <div className="flex items-center space-x-3">
     {/* Logo图标 */}
     <div className="relative">
-      <img
+      <Image
         src="/logo.svg"
         alt="CompressLab Logo"
         width={32}
@@ -34,7 +35,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navigation = [
-    { name: 'Home', href: '/', icon: Image },
+    { name: 'Home', href: '/', icon: ImageIcon },
     { name: 'About WebP', href: '/about-webp' },
     { name: 'Tutorial', href: '/tutorial' },
     { name: 'Contact', href: '/contact' },

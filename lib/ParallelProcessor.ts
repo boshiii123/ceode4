@@ -253,9 +253,7 @@ export class ParallelProcessor {
       this.completedTasks.set(task.id, result);
 
       // 结束性能监控
-      monitor.endTask(task.id, result.success, result.error, {
-        compressionRatio: result.data ? (result.data.size / task.file.size) * 100 : undefined
-      });
+      monitor.endTask(task.id, result.success, result.error);
     }).catch(error => {
       console.error(`[ParallelProcessor] Unexpected error in task ${task.id}:`, error);
       this.activeTasks.delete(task.id);

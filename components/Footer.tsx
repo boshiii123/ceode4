@@ -1,11 +1,12 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ExternalLink, FileImage, Zap, RefreshCw, Target, Shield, Globe } from 'lucide-react'
 
 // CompressLab Logo组件（Footer版本）
 const CompressorFooterLogo = () => (
   <div className="flex items-center space-x-3">
     <div className="relative">
-      <img
+      <Image
         src="/logo.svg"
         alt="CompressLab Logo"
         width={32}
