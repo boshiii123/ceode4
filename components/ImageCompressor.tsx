@@ -5,6 +5,7 @@ import imageCompression from 'browser-image-compression'
 import { Download, Upload, X, Settings, Zap, RefreshCw, RotateCcw, CheckCircle, FileImage, Info, Sliders, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ImageProcessorV2, ProcessResult } from '../lib/ImageProcessorV2'
 import { FormatDetector, FormatInfo } from '../lib/FormatDetector'
+import { AdvancedFormatConverter, OutputFormat, FORMAT_CONFIGS } from '../lib/AdvancedFormatConverter'
 
 interface CompressedImage {
   file: File
@@ -46,7 +47,7 @@ const ImageCompressor = () => {
   const [maxWidth, setMaxWidth] = useState(1920)
   const [maxHeight, setMaxHeight] = useState(1080)
   const [activeTab, setActiveTab] = useState<'compress' | 'convert'>('compress')
-  const [targetFormat, setTargetFormat] = useState<'webp' | 'jpeg' | 'png' | 'avif'>('webp')
+  const [targetFormat, setTargetFormat] = useState<OutputFormat>('webp')
   const [conversionMode, setConversionMode] = useState<'lossy' | 'lossless'>('lossy')
   const [processingProgress, setProcessingProgress] = useState(0)
   const [convertingImageIndex, setConvertingImageIndex] = useState<number | null>(null)
@@ -57,6 +58,16 @@ const ImageCompressor = () => {
   const [totalFiles, setTotalFiles] = useState(0)
   const [uploadWarning, setUploadWarning] = useState('')
   const maxImages = 20
+
+  // Phase 2: 初始化高级格式转换器
+  const formatConverter = new AdvancedFormatConverter()
+
+  // Phase 2: 格式分类配置 - 7种输出格式
+  const formatCategories = {
+    standard: ['jpeg', 'png', 'webp'] as OutputFormat[],
+    modern: ['avif'] as OutputFormat[],
+    other: ['bmp', 'gif', 'tiff'] as OutputFormat[]
+  }
 
   const getFileFormat = (file: File): string => {
     return file.type.split('/')[1] || 'unknown'
@@ -95,14 +106,26 @@ const ImageCompressor = () => {
 
   const getFormatColor = (format: string) => {
     const colors = {
+      // 现代格式
       webp: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       avif: 'bg-purple-50 text-purple-700 border-purple-200',
+      heif: 'bg-violet-50 text-violet-700 border-violet-200',
+      heic: 'bg-violet-50 text-violet-700 border-violet-200',
+
+      // 经典格式
       jpeg: 'bg-orange-50 text-orange-700 border-orange-200',
       jpg: 'bg-orange-50 text-orange-700 border-orange-200',
       png: 'bg-blue-50 text-blue-700 border-blue-200',
-      gif: 'bg-pink-50 text-pink-700 border-pink-200',
-      bmp: 'bg-gray-50 text-gray-700 border-gray-200',
+
+      // 专业格式
       tiff: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      tif: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      bmp: 'bg-gray-50 text-gray-700 border-gray-200',
+
+      // 其他格式
+      gif: 'bg-pink-50 text-pink-700 border-pink-200',
+      svg: 'bg-green-50 text-green-700 border-green-200',
+      psd: 'bg-blue-50 text-blue-700 border-blue-200',
     }
     return colors[format.toLowerCase() as keyof typeof colors] || 'bg-gray-50 text-gray-700 border-gray-200'
   }
@@ -606,7 +629,7 @@ const ImageCompressor = () => {
     setTimeout(() => setSelectedQuickSize(null), 2000)
   }
 
-  const convertAllImages = async (newFormat: 'webp' | 'jpeg' | 'png' | 'avif') => {
+  const convertAllImages = async (newFormat: OutputFormat) => {
     if (images.length === 0) return
 
     setIsProcessing(true)
@@ -621,21 +644,24 @@ const ImageCompressor = () => {
       try {
         const sourceFile = conversionMode === 'lossless' ? imageData.originalFile : imageData.compressedFile
 
-        const options = {
-          maxSizeMB: 10,
-          maxWidthOrHeight: Math.max(maxWidth, maxHeight),
-          useWebWorker: true,
-          initialQuality: 0.9,
-          fileType: `image/${newFormat}`,
-          onProgress: (progress: number) => {
-            const totalProgress = ((i + progress / 100) / images.length) * 100
-            setProcessingProgress(Math.round(totalProgress))
-          },
-        }
+        // Phase 2: 使用高级格式转换器
+        const conversionResult = await formatConverter.convertFormat(sourceFile, {
+          outputFormat: newFormat,
+          quality: 0.9,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          optimizeForWeb: true
+        })
 
-        const convertedFile = await imageCompression(sourceFile, options)
+        const convertedFile = conversionResult.file
         const convertedPreview = URL.createObjectURL(convertedFile)
         const convertedCompressionRatio = Math.round((1 - convertedFile.size / imageData.originalSize) * 100)
+
+        // 记录转换信息
+        console.log(`🔄 Format conversion: ${imageData.originalFormat} → ${newFormat} (${conversionResult.method})`)
+        if (conversionResult.warnings?.length) {
+          console.warn('⚠️ Conversion warnings:', conversionResult.warnings)
+        }
 
         updatedImages[i] = {
           ...imageData,
@@ -702,7 +728,7 @@ const ImageCompressor = () => {
     setImages(prev => prev.filter((_, i) => i !== index))
   }
 
-  const convertSingleImage = async (imageIndex: number, newFormat: 'webp' | 'jpeg' | 'png' | 'avif') => {
+  const convertSingleImage = async (imageIndex: number, newFormat: OutputFormat) => {
     // 设置转换状态 - 使用函数式更新
     setImages(prev => prev.map((img, idx) =>
       idx === imageIndex ? { ...img, isConverting: true } : img
@@ -713,17 +739,21 @@ const ImageCompressor = () => {
       // 快速转换按钮始终基于压缩后的图片进行有损转换
       const sourceFile = imageData.compressedFile
 
-      const options = {
-        maxSizeMB: 10,
-        maxWidthOrHeight: Math.max(maxWidth, maxHeight),
-        useWebWorker: true,
-        initialQuality: 0.85, // 使用较高质量进行快速转换
-        fileType: `image/${newFormat}`,
-      }
+      // Phase 2: 使用高级格式转换器进行单个转换
+      const conversionResult = await formatConverter.convertFormat(sourceFile, {
+        outputFormat: newFormat,
+        quality: 0.85,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        optimizeForWeb: true
+      })
 
-      const convertedFile = await imageCompression(sourceFile, options)
+      const convertedFile = conversionResult.file
       const convertedPreview = URL.createObjectURL(convertedFile)
       const convertedCompressionRatio = Math.round((1 - convertedFile.size / imageData.originalSize) * 100)
+
+      // 记录转换详情
+      console.log(`🔄 Single conversion: ${imageData.originalFormat} → ${newFormat} (${conversionResult.processingTime.toFixed(1)}ms, ${conversionResult.method})`)
 
       // 完成转换 - 使用函数式更新
       setImages(prev => prev.map((img, idx) =>
@@ -1036,25 +1066,40 @@ const ImageCompressor = () => {
                           </div>
                         )}
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        {['webp', 'jpeg', 'png', 'avif'].map((format) => (
-                          <button
-                            key={format}
-                            onClick={() => {
-                              const newFormat = format as 'webp' | 'jpeg' | 'png' | 'avif'
-                              setTargetFormat(newFormat)
-                              if (images.length > 0) {
-                                convertAllImages(newFormat)
-                              }
-                            }}
-                            disabled={isProcessing}
-                            className={`py-3 px-2 rounded-lg text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${targetFormat === format
-                              ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/25'
-                              : 'bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 hover:border-gray-300'
-                              }`}
-                          >
-                            {format.toUpperCase()}
-                          </button>
+                      {/* Phase 2: 增强的格式选择器 */}
+                      <div className="space-y-3">
+                        {Object.entries(formatCategories).map(([category, formats]) => (
+                          <div key={category}>
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                              {category === 'standard' ? '📷 Standard' :
+                                category === 'modern' ? '🚀 Modern' :
+                                  '🔧 Other'}
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              {formats.map((format) => {
+                                const config = FORMAT_CONFIGS[format]
+                                return (
+                                  <button
+                                    key={format}
+                                    onClick={() => {
+                                      setTargetFormat(format)
+                                      if (images.length > 0) {
+                                        convertAllImages(format)
+                                      }
+                                    }}
+                                    disabled={isProcessing}
+                                    className={`py-2.5 px-2 rounded-lg text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${targetFormat === format
+                                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/25'
+                                      : 'bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 hover:border-gray-300'
+                                      }`}
+                                    title={config.description}
+                                  >
+                                    {format.toUpperCase()}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -1152,7 +1197,7 @@ const ImageCompressor = () => {
                   <input
                     type="file"
                     multiple
-                    accept="image/*,.avif,.heif,.heic,.psd,.cr2,.dng,.raw,.tiff,.tif"
+                    accept="image/*,.avif,.heif,.heic,.psd,.cr2,.dng,.raw,.tiff,.tif,.bmp,.svg"
                     onChange={handleFileInput}
                     className="hidden"
                     id="file-upload"
@@ -1334,19 +1379,31 @@ const ImageCompressor = () => {
 
                               {/* Format Conversion Buttons - Larger for mobile */}
                               <div className="space-y-3">
-                                <div className="grid grid-cols-2 gap-2">
-                                  {['webp', 'jpeg', 'png', 'avif'].map((format) => (
-                                    <button
-                                      key={format}
-                                      onClick={() => convertSingleImage(index, format as 'webp' | 'jpeg' | 'png' | 'avif')}
-                                      disabled={image.isConverting || isProcessing}
-                                      className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
-                                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
-                                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
-                                        }`}
-                                    >
-                                      {format.toUpperCase()}
-                                    </button>
+                                {/* Phase 2: 移动端格式选择器 */}
+                                <div className="space-y-2">
+                                  {Object.entries(formatCategories).map(([category, formats]) => (
+                                    <div key={category}>
+                                      <div className="text-xs font-medium text-gray-500 mb-1">
+                                        {category === 'standard' ? '📷 Standard' :
+                                          category === 'modern' ? '🚀 Modern' :
+                                            '🔧 Other'}
+                                      </div>
+                                      <div className="grid grid-cols-3 gap-1.5">
+                                        {formats.map((format) => (
+                                          <button
+                                            key={format}
+                                            onClick={() => convertSingleImage(index, format)}
+                                            disabled={image.isConverting || isProcessing}
+                                            className={`px-2 py-2 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
+                                              ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                                              : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
+                                              }`}
+                                          >
+                                            {format.toUpperCase()}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    </div>
                                   ))}
                                 </div>
 
@@ -1468,26 +1525,35 @@ const ImageCompressor = () => {
 
                             {/* Format Conversion Buttons - Professional */}
                             <div className="flex items-center justify-between mt-3">
-                              <div className="flex items-center space-x-2">
-                                {['webp', 'jpeg', 'png', 'avif'].map((format) => (
-                                  <button
-                                    key={format}
-                                    onClick={() => convertSingleImage(index, format as 'webp' | 'jpeg' | 'png' | 'avif')}
-                                    disabled={image.isConverting || isProcessing}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
-                                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
-                                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
-                                      }`}
-                                  >
-                                    {image.isConverting && format === image.finalFormat ? (
-                                      <div className="flex items-center">
-                                        <RefreshCw className="w-3 h-3 animate-spin mr-1" />
-                                        <span className="text-xs">Converting</span>
-                                      </div>
-                                    ) : (
-                                      format.toUpperCase()
-                                    )}
-                                  </button>
+                              {/* Phase 2: 桌面端格式选择器 */}
+                              <div className="flex items-center space-x-2 flex-wrap">
+                                {Object.entries(formatCategories).map(([category, formats]) => (
+                                  <div key={category} className="flex items-center space-x-1">
+                                    {formats.map((format) => {
+                                      const config = FORMAT_CONFIGS[format]
+                                      return (
+                                        <button
+                                          key={format}
+                                          onClick={() => convertSingleImage(index, format)}
+                                          disabled={image.isConverting || isProcessing}
+                                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${image.finalFormat === format
+                                            ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                                            : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 hover:border-gray-400'
+                                            }`}
+                                          title={`Convert to ${format.toUpperCase()} - ${config.description}`}
+                                        >
+                                          {image.isConverting && format === image.finalFormat ? (
+                                            <div className="flex items-center">
+                                              <RefreshCw className="w-3 h-3 animate-spin mr-1" />
+                                              <span className="text-xs">Converting</span>
+                                            </div>
+                                          ) : (
+                                            format.toUpperCase()
+                                          )}
+                                        </button>
+                                      )
+                                    })}
+                                  </div>
                                 ))}
                               </div>
 

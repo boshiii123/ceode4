@@ -2,6 +2,7 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Analytics from '../components/Analytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -151,19 +152,6 @@ export default function RootLayout({
         <meta name="theme-color" content="#3b82f6" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DPRB9HN0ED"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-DPRB9HN0ED');
-            `,
-          }}
-        />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -173,6 +161,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
           {children}
         </div>
+        <Analytics />
       </body>
     </html>
   )

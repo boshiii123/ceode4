@@ -1,57 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- 渐变定义 -->
-    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-    </linearGradient>
-    
-    <!-- 阴影滤镜 -->
-    <filter id="dropshadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
-      <feOffset dx="2" dy="4" result="offset"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.2"/>
-      </feComponentTransfer>
-      <feMerge> 
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/> 
-      </feMerge>
-    </filter>
-  </defs>
-  
-  <!-- 背景圆形 -->
-  <circle cx="90" cy="90" r="85" fill="url(#mainGradient)" filter="url(#dropshadow)"/>
-  
-  <!-- 主图标设计 - 压缩箭头和文件图标 -->
-  <g transform="translate(90, 90)" fill="white">
-    <!-- 上方文件图标 -->
-    <rect x="-20" y="-45" width="40" height="25" rx="3" fill="white" opacity="0.9"/>
-    <rect x="-15" y="-40" width="30" height="3" rx="1.5" fill="url(#mainGradient)"/>
-    <rect x="-15" y="-35" width="20" height="2" rx="1" fill="url(#mainGradient)"/>
-    <rect x="-15" y="-31" width="25" height="2" rx="1" fill="url(#mainGradient)"/>
-    
-    <!-- 压缩箭头 - 中央特征 -->
-    <g transform="translate(0, -5)">
-      <!-- 上箭头 -->
-      <polygon points="-8,0 0,-12 8,0 4,0 4,8 -4,8 -4,0" fill="white"/>
-      <!-- 下箭头 -->
-      <polygon points="-8,15 0,3 8,15 4,15 4,7 -4,7 -4,15" fill="white"/>
-    </g>
-    
-    <!-- 下方压缩后的文件图标 -->
-    <rect x="-15" y="25" width="30" height="18" rx="2" fill="white" opacity="0.9"/>
-    <rect x="-12" y="28" width="24" height="2" rx="1" fill="url(#mainGradient)"/>
-    <rect x="-12" y="32" width="16" height="1.5" rx="0.75" fill="url(#mainGradient)"/>
-    <rect x="-12" y="35" width="20" height="1.5" rx="0.75" fill="url(#mainGradient)"/>
-    
-    <!-- 压缩比例指示器 -->
-    <circle cx="25" cy="35" r="8" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1.5"/>
-    <text x="25" y="40" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">-70%</text>
-  </g>
-  
-  <!-- 品牌文字（小尺寸时隐藏）-->
-  <text x="90" y="160" text-anchor="middle" fill="url(#mainGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CompressLab</text>
-</svg> 
+<svg id="downloadable-svg" width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1"/>
+                    <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1"/>
+                    <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1"/>
+                </linearGradient>
+                
+                <!-- 阴影滤镜 -->
+                <filter id="dropshadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+                    <feOffset dx="2" dy="4" result="offset"/>
+                    <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.2"/>
+                    </feComponentTransfer>
+                    <feMerge> 
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/> 
+                    </feMerge>
+                </filter>
+            </defs>
+            
+            <!-- 六边形背景 -->
+            <polygon points="90,11 158,45 158,135 90,169 22,135 22,45" fill="url(#logoGradient)" filter="url(#dropshadow)"/>
+            
+            <!-- 压缩箭头（放大版本） -->
+            <g fill="white">
+                <polygon points="90,56 68,78 78,78 78,101 102,101 102,78 112,78"/>
+                <rect x="61" y="112" width="56" height="11" rx="5.5"/>
+                <rect x="67" y="123" width="45" height="8" rx="4"/>
+            </g>
+            
+        </svg>

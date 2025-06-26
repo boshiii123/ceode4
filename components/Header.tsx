@@ -9,27 +9,13 @@ const CompressLabLogo = () => (
   <div className="flex items-center space-x-3">
     {/* Logo图标 */}
     <div className="relative">
-      <svg width="32" height="32" viewBox="0 0 32 32" className="drop-shadow-sm">
-        {/* 六边形背景 */}
-        <defs>
-          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3B82F6" />
-            <stop offset="50%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#06B6D4" />
-          </linearGradient>
-        </defs>
-        <polygon
-          points="16,2 28,8 28,24 16,30 4,24 4,8"
-          fill="url(#logoGradient)"
-          className="drop-shadow-sm"
-        />
-        {/* 压缩箭头 */}
-        <g fill="white">
-          <polygon points="16,10 12,14 14,14 14,18 18,18 18,14 20,14" />
-          <rect x="11" y="20" width="10" height="2" rx="1" />
-          <rect x="12" y="22" width="8" height="1.5" rx="0.75" />
-        </g>
-      </svg>
+      <img
+        src="/logo.svg"
+        alt="CompressLab Logo"
+        width={32}
+        height={32}
+        className="drop-shadow-sm"
+      />
     </div>
 
     {/* 品牌名称 */}

@@ -1,36 +1,21 @@
 import Link from 'next/link'
 import { ExternalLink, FileImage, Zap, RefreshCw, Target, Shield, Globe } from 'lucide-react'
 
-// Professional Image Compressor Logo组件（简化版用于Footer）
+// CompressLab Logo组件（Footer版本）
 const CompressorFooterLogo = () => (
   <div className="flex items-center space-x-3">
     <div className="relative">
-      <svg width="32" height="32" viewBox="0 0 32 32" className="drop-shadow-sm">
-        <defs>
-          <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3B82F6" />
-            <stop offset="50%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#06B6D4" />
-          </linearGradient>
-        </defs>
-        <rect
-          x="2" y="2" width="28" height="28" rx="8"
-          fill="url(#footerLogoGradient)"
-        />
-        <g fill="white">
-          {/* Compression icon */}
-          <rect x="8" y="10" width="6" height="2" rx="1" />
-          <rect x="8" y="13" width="4" height="2" rx="1" />
-          <rect x="8" y="16" width="8" height="2" rx="1" />
-          <rect x="8" y="19" width="5" height="2" rx="1" />
-          {/* Arrow indicating compression */}
-          <polygon points="20,12 24,16 20,20 22,16" />
-        </g>
-      </svg>
+      <img
+        src="/logo.svg"
+        alt="CompressLab Logo"
+        width={32}
+        height={32}
+        className="drop-shadow-sm"
+      />
     </div>
     <div>
       <div className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-        Professional Image Compressor
+        CompressLab
       </div>
       <div className="text-xs text-gray-500 font-medium">Smart • Fast • Secure</div>
     </div>
@@ -48,7 +33,7 @@ const Footer = () => {
               <CompressorFooterLogo />
             </div>
             <p className="text-gray-600 mb-6 max-w-lg leading-relaxed">
-              Professional image compression and format conversion tool with smart algorithms.
+              CompressLab is a professional image compression and format conversion tool with smart algorithms.
               Compress images to specific sizes (100KB, 200KB, 300KB) or convert between WebP, AVIF, JPEG, and PNG formats
               while maintaining exceptional quality. 100% client-side processing ensures your privacy.
             </p>
@@ -189,7 +174,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center space-x-4">
               <p className="text-gray-500 text-sm">
-                © 2024 Professional Image Compressor. All rights reserved.
+                © 2024 CompressLab. All rights reserved.
               </p>
               <div className="hidden sm:flex items-center space-x-2 text-xs text-gray-400">
                 <Shield className="w-3 h-3" />
