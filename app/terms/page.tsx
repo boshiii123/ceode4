@@ -372,13 +372,13 @@ export default function Terms() {
                   className="inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:scale-105"
                 >
                   <CheckCircle className="w-5 h-5 mr-2" />
-                  Start Compressing Now
+                  Free WebP Compressor
                 </Link>
                 <Link
-                  href="/privacy"
+                  href="/tutorial"
                   className="inline-flex items-center bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 font-semibold py-4 px-8 rounded-2xl transition-all duration-200 shadow-lg border border-gray-300 hover:border-gray-400 transform hover:scale-105"
                 >
-                  Read Privacy Policy
+                  WebP Tutorial
                 </Link>
               </div>
             </div>

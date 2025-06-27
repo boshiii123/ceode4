@@ -149,10 +149,10 @@ Website: http://localhost:3001
                     What image formats are supported?
                   </h3>
                   <p className="text-gray-600 mb-2">
-                    We support JPG, PNG, GIF, BMP, TIFF, WebP, AVIF and other common image formats with conversion between them.
+                    We support 7 image formats with advanced WebP compressor technology: WebP, AVIF, JPEG, PNG, BMP, GIF, and TIFF. Convert between formats or compress WebP images online.
                   </p>
                   <Link href="/about-webp" className="text-sm text-green-600 hover:text-green-700 font-medium">
-                    Learn about image formats →
+                    Complete WebP format guide →
                   </Link>
                 </div>
 
@@ -170,10 +170,10 @@ Website: http://localhost:3001
                     How do I get the best compression results?
                   </h3>
                   <p className="text-gray-600 mb-2">
-                    Use the quick compress feature for precise size control, or adjust the max width and height settings as needed.
+                    Use our smart WebP compressor with precise size control (100KB, 200KB, 300KB) or custom targeting. Our advanced algorithms ensure optimal WebP compression results.
                   </p>
                   <Link href="/tutorial" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                    View complete tutorial →
+                    WebP compression tutorial →
                   </Link>
                 </div>
               </div>

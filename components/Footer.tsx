@@ -8,7 +8,7 @@ const CompressorFooterLogo = () => (
     <div className="relative">
       <Image
         src="/logo.svg"
-        alt="CompressLab WebP Compressor V2 Engine Logo"
+        alt="CompressLab Free WebP Compressor Online Logo"
         width={32}
         height={32}
         className="drop-shadow-sm"
@@ -18,7 +18,7 @@ const CompressorFooterLogo = () => (
       <div className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
         CompressLab
       </div>
-      <div className="text-xs text-gray-500 font-medium">V2 Engine • WebP Expert • 7 Formats</div>
+      <div className="text-xs text-gray-500 font-medium">Free WebP Compressor • Online Tool • 7 Formats</div>
     </div>
   </div>
 )
@@ -34,10 +34,10 @@ const Footer = () => {
               <CompressorFooterLogo />
             </div>
             <p className="text-gray-600 mb-6 max-w-lg leading-relaxed">
-              CompressLab is the advanced WebP compressor with V2 engine technology.
-              Compress WebP images with intelligent analysis, precise size control (100KB, 200KB, 300KB),
+              CompressLab is the best free WebP compressor online.
+              Compress WebP images, reduce file size with precise control (100KB, 200KB, 300KB),
               and convert between 7 formats: WebP, AVIF, JPEG, PNG, BMP, GIF, TIFF.
-              Superior WebP compression with 100% client-side processing for privacy.
+              Free WebP compression with 100% client-side processing for privacy.
             </p>
 
             {/* Key Features - 更新为V2引擎功能 */}
@@ -46,7 +46,7 @@ const Footer = () => {
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                   <Cpu className="w-4 h-4 text-blue-600" />
                 </div>
-                <span>V2 Engine WebP Analysis</span>
+                <span>Smart WebP Analysis</span>
               </div>
               <div className="flex items-center text-sm text-gray-600">
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
@@ -74,31 +74,31 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-bold text-gray-900 tracking-wider uppercase mb-6 flex items-center">
               <FileImage className="w-4 h-4 mr-2 text-blue-600" />
-              WebP Tools & Features
+              Free WebP Tools
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <Cpu className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  V2 Engine WebP Compressor
+                  Free WebP Compressor Online
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <RefreshCw className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  WebP Format Converter
+                  WebP to JPG Converter
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <Target className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  WebP Size Control (100KB/200KB/300KB)
+                  Reduce WebP File Size
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <BarChart3 className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  WebP Analytics & Batch Processing
+                  Batch WebP Compressor
                 </Link>
               </li>
             </ul>
@@ -108,19 +108,19 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-bold text-gray-900 tracking-wider uppercase mb-6 flex items-center">
               <Globe className="w-4 h-4 mr-2 text-green-600" />
-              WebP Resources & Support
+              WebP Guide & Support
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link href="/about-webp" className="group flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200">
                   <FileImage className="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" />
-                  Complete WebP Format Guide
+                  About WebP Format
                 </Link>
               </li>
               <li>
                 <Link href="/tutorial" className="group flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200">
                   <Target className="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" />
-                  V2 Engine WebP Tutorial
+                  WebP Compressor Tutorial
                 </Link>
               </li>
               <li>
@@ -148,7 +148,7 @@ const Footer = () => {
         {/* Supported Formats - 突出WebP */}
         <div className="border-t border-gray-200 mt-12 pt-8">
           <div className="text-center mb-8">
-            <h4 className="text-sm font-bold text-gray-900 mb-4">WebP Compressor - 7 Supported Formats</h4>
+            <h4 className="text-sm font-bold text-gray-900 mb-4">Free WebP Compressor - 7 Supported Formats</h4>
             <div className="flex flex-wrap justify-center gap-3">
               {[
                 { name: 'WebP', color: 'bg-green-100 text-green-700 border-green-200 ring-2 ring-green-300', featured: true },
@@ -169,7 +169,7 @@ const Footer = () => {
                 </span>
               ))}
             </div>
-            <p className="text-xs text-gray-500 mt-2">V2 Engine optimized for WebP compression and conversion</p>
+            <p className="text-xs text-gray-500 mt-2">Free online tool optimized for WebP compression and conversion</p>
           </div>
         </div>
 
@@ -178,11 +178,11 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center space-x-4">
               <p className="text-gray-500 text-sm">
-                © 2024 CompressLab WebP Compressor. All rights reserved.
+                © 2024 CompressLab Free WebP Compressor. All rights reserved.
               </p>
               <div className="hidden sm:flex items-center space-x-2 text-xs text-gray-400">
                 <Shield className="w-3 h-3" />
-                <span>V2 Engine • Client-Side Processing</span>
+                <span>Free Tool • Client-Side Processing</span>
               </div>
             </div>
             <div className="flex flex-wrap justify-center lg:justify-end gap-6">

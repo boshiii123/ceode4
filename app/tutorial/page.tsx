@@ -5,7 +5,7 @@ import { CheckCircle, ArrowRight, FileImage, Download, Settings, Zap, Target, La
 
 export const metadata = {
   title: 'Advanced Image Compressor Tutorial - Complete Guide with V2 Engine | CompressLab',
-  description: 'Master CompressLab\'s advanced V2 engine with intelligent compression, 7-format support, precise size control, and batch processing. Complete tutorial guide.',
+  description: 'Master CompressLab&apos;s advanced V2 engine with intelligent compression, 7-format support, precise size control, and batch processing. Complete tutorial guide.',
   keywords: ['image compressor tutorial', 'V2 engine guide', 'intelligent compression', 'batch image processing', 'format conversion guide', 'CompressLab tutorial', 'webp avif compression'],
 }
 
@@ -78,7 +78,7 @@ export default function Tutorial() {
                   Smart Upload & Analysis
                 </h3>
                 <p className="text-gray-600 mb-6 text-lg">
-                  Upload up to 20 images and watch our V2 engine automatically analyze each file's characteristics,
+                  Upload up to 20 images and watch our V2 engine automatically analyze each file&apos;s characteristics,
                   format type, and optimal compression strategy.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

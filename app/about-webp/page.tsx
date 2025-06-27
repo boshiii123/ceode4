@@ -69,7 +69,7 @@ export default function AboutImageFormats() {
               </div>
             </div>
             <p className="text-gray-600 mb-4">
-              Google's modern format with superior compression. 25-35% smaller than JPEG, supports transparency
+              Google&apos;s modern format with superior compression. 25-35% smaller than JPEG, supports transparency
               and animation. Perfect for modern web applications.
             </p>
             <div className="space-y-2 text-sm">
