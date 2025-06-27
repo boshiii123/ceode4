@@ -31,6 +31,5 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://tinyimgtool.com/sitemap.xml',
-    host: 'https://tinyimgtool.com',
   }
 } 
