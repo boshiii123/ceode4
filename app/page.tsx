@@ -3,7 +3,7 @@
 import Header from '../components/Header'
 import ImageCompressor from '../components/ImageCompressor'
 import Footer from '../components/Footer'
-import { Upload, Settings, Download, Shield, Zap, Globe, Clock, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { Upload, Settings, Download, Shield, Zap, Globe, Clock, CheckCircle, ChevronDown, ChevronUp, Cpu, BarChart3, Target, Layers } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
 
@@ -17,7 +17,7 @@ export default function Home() {
         "name": "What is the best WebP compressor online?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "CompressLab is the best free WebP compressor online. Our WebP compressor uses advanced algorithms to compress WebP images while maintaining quality. You can compress WebP files to specific sizes like 100KB, 200KB, or convert WebP to other formats like JPEG and PNG."
+          "text": "CompressLab is the best free WebP compressor online with V2 engine technology. Our advanced WebP compressor uses intelligent algorithms to compress WebP images while maintaining quality. Supports 7 formats including WebP, AVIF, JPEG, PNG, BMP, GIF, and TIFF."
         }
       },
       {
@@ -25,7 +25,7 @@ export default function Home() {
         "name": "How do I compress a WebP image to a specific size like 100KB?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simply upload your WebP image and click one of our quick compress buttons (100KB, 200KB, 300KB). CompressLab's WebP compressor will automatically adjust the compression settings to achieve your target file size while maintaining the best possible quality."
+          "text": "Upload your WebP image and use our quick compress buttons (100KB, 200KB, 300KB) or custom size targeting. CompressLab's V2 engine automatically analyzes your WebP image and applies intelligent compression to achieve exact file sizes while maintaining optimal quality."
         }
       },
       {
@@ -33,7 +33,7 @@ export default function Home() {
         "name": "Is it safe to compress my WebP images here?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Absolutely! CompressLab processes all WebP images directly in your browser using client-side technology. Your WebP images are never uploaded to our servers, ensuring complete privacy and security of your files."
+          "text": "Absolutely! CompressLab processes all WebP images directly in your browser using client-side V2 engine technology. Your WebP images are never uploaded to our servers, ensuring complete privacy and security."
         }
       },
       {
@@ -41,15 +41,15 @@ export default function Home() {
         "name": "Does compressing a WebP image reduce its quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "WebP compression is designed to maintain visual quality while reducing file size. Our advanced WebP compressor algorithms ensure minimal quality loss. You can adjust the compression settings to find the perfect balance between file size and image quality for your WebP images."
+          "text": "Our V2 engine WebP compressor uses intelligent analysis to maintain visual quality while reducing file size. The advanced algorithms ensure minimal quality loss with smart iteration and content-aware compression for your WebP images."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the difference between WebP and JPG?",
+        "name": "What makes CompressLab's WebP compressor different?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "WebP is a modern image format that provides 25-35% better compression than JPG while maintaining the same visual quality. WebP also supports transparency (like PNG) and animation, making it more versatile for web use. Our WebP compressor can convert between these formats."
+          "text": "CompressLab features V2 engine technology with intelligent WebP analysis, precise size control, and support for 7 formats. Our WebP compressor offers parallel processing, real-time analytics, and can compress up to 20 WebP images simultaneously."
         }
       },
       {
@@ -57,15 +57,15 @@ export default function Home() {
         "name": "Can I convert WebP to other formats?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes! CompressLab's WebP compressor supports converting WebP images to JPEG, PNG, and other formats. You can also convert other formats to WebP for better compression. All conversions maintain high quality while optimizing file size."
+          "text": "Yes! Our WebP compressor supports conversion between WebP and 6 other formats: AVIF, JPEG, PNG, BMP, GIF, and TIFF. Convert WebP to JPEG/PNG or vice versa with professional quality using V2 engine technology."
         }
       },
       {
         "@type": "Question",
-        "name": "What image formats does CompressLab support?",
+        "name": "What image formats work with your WebP compressor?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "CompressLab supports all major image formats including WebP, JPEG, PNG, GIF, AVIF, BMP, and TIFF. You can upload any of these formats and convert them to WebP or other formats while compressing to your desired file size."
+          "text": "CompressLab's WebP compressor supports 7 formats: WebP (primary), AVIF, JPEG, PNG, BMP, GIF, and TIFF. Upload any format and compress/convert to WebP or other formats with V2 engine optimization."
         }
       },
       {
@@ -73,7 +73,7 @@ export default function Home() {
         "name": "Is CompressLab WebP compressor free to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes! CompressLab's WebP compressor is completely free to use with no limitations on file size, number of WebP images, or compression quality. There are no hidden fees, subscriptions, or watermarks added to your compressed WebP images."
+          "text": "Yes! CompressLab's advanced WebP compressor with V2 engine is completely free. No limitations on WebP file size, number of images (up to 20 at once), or compression quality. No subscriptions or watermarks."
         }
       }
     ]
@@ -92,28 +92,50 @@ export default function Home() {
       <main>
         <Header />
 
-        {/* 简化的页面标题区域 */}
+        {/* Hero Section - 保持WebP为主，融入智能功能 */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="text-center mb-4">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              CompressLab - Free WebP Compressor Online
+              Best Free WebP Compressor Online - Compress WebP Images
             </h1>
-            <p className="text-lg text-gray-600">
-              Best WebP compressor to compress WebP images, reduce file size, and convert WebP to JPEG/PNG formats
+            <p className="text-lg text-gray-600 mb-4">
+              Free WebP compressor tool. Compress WebP online, reduce WebP file size, convert WebP to JPG/PNG. No limits, fast compression.
             </p>
+
+            {/* 智能功能特性横幅 */}
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 mb-6 text-white">
+              <div className="flex flex-wrap justify-center items-center gap-6 text-sm">
+                <div className="flex items-center">
+                  <Cpu className="w-4 h-4 mr-2" />
+                  <span>Free WebP Compressor</span>
+                </div>
+                <div className="flex items-center">
+                  <Target className="w-4 h-4 mr-2" />
+                  <span>Reduce WebP File Size</span>
+                </div>
+                <div className="flex items-center">
+                  <Layers className="w-4 h-4 mr-2" />
+                  <span>WebP to JPG/PNG</span>
+                </div>
+                <div className="flex items-center">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  <span>Online WebP Tool</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <ImageCompressor />
 
-        {/* How-To Section 使用步骤 - 恢复更多内容 */}
+        {/* How-To Section - 强调WebP + 智能功能 */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              How to Use CompressLab WebP Compressor in 3 Simple Steps
+              How to Compress WebP Online in 3 Smart Steps
             </h2>
             <p className="text-lg text-gray-600">
-              Professional WebP compression and format conversion made easy
+              Professional WebP compression with intelligent analysis and 7-format support
             </p>
           </div>
 
@@ -122,10 +144,10 @@ export default function Home() {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <Upload className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">1. Upload WebP Images</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">1. Smart WebP Upload</h3>
               <p className="text-gray-600">
-                Drag & drop or click to select WebP images.
-                Supports WebP, JPEG, PNG, AVIF, GIF, BMP, TIFF formats.
+                Upload WebP images or 6 other formats (AVIF, JPEG, PNG, BMP, GIF, TIFF).
+                Smart engine automatically analyzes each WebP file for optimal processing.
               </p>
             </div>
 
@@ -133,10 +155,10 @@ export default function Home() {
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <Settings className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">2. Compress WebP Files</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">2. Intelligent WebP Processing</h3>
               <p className="text-gray-600">
-                Use our WebP compressor to compress to 100KB, 200KB, 300KB or convert WebP to JPEG/PNG.
-                All WebP compression happens in your browser for privacy.
+                Advanced algorithms compress WebP to exact sizes (100KB, 200KB, 300KB) or convert WebP to other formats.
+                Smart optimization ensures perfect WebP quality preservation.
               </p>
             </div>
 
@@ -144,88 +166,139 @@ export default function Home() {
               <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <Download className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">3. Download Compressed WebP</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">3. Download Optimized WebP</h3>
               <p className="text-gray-600">
-                Download individual compressed WebP files or use batch download.
-                Get perfectly optimized WebP images in seconds.
+                Get compressed WebP images with live analytics showing compression ratios.
+                Batch download up to 20 WebP files with performance stats.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Features Section 功能特色 - 恢复更多内容 */}
+        {/* Features Section - WebP为主，展示智能功能 */}
         <div className="bg-gray-50 py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Why Choose CompressLab WebP Compressor?
+                Why Choose Our Advanced WebP Compressor?
               </h2>
               <p className="text-lg text-gray-600">
-                Professional WebP compression with advanced features
+                Professional WebP compression technology with intelligent features
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="text-center">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Zap className="w-6 h-6 text-blue-600" />
+                  <Target className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">WebP Size Control</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Precise WebP Control</h3>
                 <p className="text-gray-600">
-                  Compress WebP images to exact file sizes: 100KB, 200KB, 300KB, or any custom size.
+                  Compress WebP to exact sizes with smart algorithms: 100KB, 200KB, 300KB, or any custom size.
+                  ±5KB accuracy guaranteed for WebP compression.
                 </p>
               </div>
 
               <div className="text-center">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Globe className="w-6 h-6 text-green-600" />
+                  <Layers className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">WebP Format Conversion</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">WebP + 6 Formats</h3>
                 <p className="text-gray-600 mb-3">
-                  Convert WebP to JPEG, PNG formats or compress WebP files while maintaining quality.
+                  Convert WebP to AVIF (50% smaller), JPEG, PNG, or compress any format to WebP.
+                  Professional format conversion with quality preservation.
                 </p>
                 <Link href="/about-webp" className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors duration-200">
-                  Learn about WebP format →
+                  Learn about all formats →
                 </Link>
               </div>
 
               <div className="text-center">
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-6 h-6 text-purple-600" />
+                  <Cpu className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Privacy Protected</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Smart WebP Analysis</h3>
                 <p className="text-gray-600 mb-3">
-                  All WebP compression happens in your browser. Your WebP images never leave your device.
+                  Advanced algorithms automatically analyze WebP characteristics and select optimal compression strategy.
+                  Content-aware processing for perfect results.
                 </p>
-                <Link href="/privacy" className="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200">
-                  Learn about our privacy policy →
+                <Link href="/tutorial" className="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200">
+                  View smart compression tutorial →
                 </Link>
               </div>
 
               <div className="text-center">
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-6 h-6 text-orange-600" />
+                  <BarChart3 className="w-6 h-6 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Fast WebP Processing</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Live WebP Analytics</h3>
                 <p className="text-gray-600 mb-3">
-                  Instant WebP compression with no upload time. Process multiple WebP images simultaneously.
+                  Real-time WebP compression statistics: processing time, compression ratios, quality scores.
+                  Monitor compression performance for optimal results.
                 </p>
-                <Link href="/tutorial" className="text-sm text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200">
-                  View complete tutorial →
+                <Link href="/privacy" className="text-sm text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200">
+                  Privacy & security →
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* FAQ Section 常见问题 - 恢复8个问题 */}
+        {/* WebP Benefits Section - 新增WebP优势说明 */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why WebP is the Future of Web Images?
+            </h2>
+            <p className="text-lg text-gray-600">
+              Discover why WebP is becoming the standard for modern websites
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Zap className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">35% Smaller Files</h3>
+              <p className="text-gray-600">
+                WebP compression reduces file sizes by 25-35% compared to JPEG while maintaining the same visual quality.
+                Perfect for faster websites and better user experience.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Shield className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Transparency & Animation</h3>
+              <p className="text-gray-600">
+                Unlike JPEG, WebP supports transparency like PNG and animations like GIF.
+                One format for all your web image needs with superior compression.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Globe className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">95%+ Browser Support</h3>
+              <p className="text-gray-600">
+                WebP is supported by all modern browsers including Chrome, Firefox, Safari, and Edge.
+                Safe to use for production websites with excellent compatibility.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section - 更新为WebP + 智能压缩相关 */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
+              WebP Compressor FAQ
             </h2>
             <p className="text-lg text-gray-600">
-              Everything you need to know about WebP compression
+              Everything you need to know about smart WebP compression
             </p>
           </div>
 
@@ -234,17 +307,17 @@ export default function Home() {
           {/* CTA Section with Internal Links */}
           <div className="text-center mt-12 p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl border border-blue-200">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Ready to Get Started?
+              Ready to Experience Smart WebP Compression?
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Explore our comprehensive guides and tutorials to master WebP compression
+              Start compressing WebP images with intelligent analysis and professional results
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/tutorial" className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors duration-200">
-                Complete Tutorial
+                Smart Compression Tutorial
               </Link>
               <Link href="/about-webp" className="inline-flex items-center px-6 py-3 bg-white hover:bg-gray-50 text-blue-600 font-semibold rounded-xl border border-blue-200 transition-colors duration-200">
-                WebP Format Guide
+                Complete Format Guide
               </Link>
               <Link href="/contact" className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors duration-200">
                 Get Support
@@ -259,42 +332,42 @@ export default function Home() {
   )
 }
 
-// FAQ手风琴组件 - 恢复8个问题
+// FAQ手风琴组件 - 更新为WebP + 智能压缩相关
 function FAQAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const faqData = [
     {
       question: "What is the best WebP compressor online?",
-      answer: "CompressLab is the best free WebP compressor online. Our WebP compressor uses advanced algorithms to compress WebP images while maintaining quality. You can compress WebP files to specific sizes like 100KB, 200KB, or convert WebP to other formats like JPEG and PNG."
+      answer: "CompressLab is the best free WebP compressor online with advanced smart technology. Our professional WebP compressor uses intelligent algorithms to compress WebP images while maintaining quality. Supports 7 formats including WebP, AVIF, JPEG, PNG, BMP, GIF, and TIFF."
     },
     {
       question: "How do I compress a WebP image to a specific size like 100KB?",
-      answer: "Simply upload your WebP image and click one of our quick compress buttons (100KB, 200KB, 300KB). CompressLab's WebP compressor will automatically adjust the compression settings to achieve your target file size while maintaining the best possible quality."
+      answer: "Upload your WebP image and use our quick compress buttons (100KB, 200KB, 300KB) or custom size targeting. CompressLab's smart algorithms automatically analyze your WebP image and apply intelligent compression to achieve exact file sizes while maintaining optimal quality."
     },
     {
       question: "Is it safe to compress my WebP images here?",
-      answer: "Absolutely! CompressLab processes all WebP images directly in your browser using client-side technology. Your WebP images are never uploaded to our servers, ensuring complete privacy and security of your files."
+      answer: "Absolutely! CompressLab processes all WebP images directly in your browser using client-side technology. Your WebP images are never uploaded to our servers, ensuring complete privacy and security."
     },
     {
       question: "Does compressing a WebP image reduce its quality?",
-      answer: "WebP compression is designed to maintain visual quality while reducing file size. Our advanced WebP compressor algorithms ensure minimal quality loss. You can adjust the compression settings to find the perfect balance between file size and image quality for your WebP images."
+      answer: "Our smart WebP compressor uses intelligent analysis to maintain visual quality while reducing file size. The advanced algorithms ensure minimal quality loss with smart iteration and content-aware compression for your WebP images."
     },
     {
-      question: "What is the difference between WebP and JPG?",
-      answer: "WebP is a modern image format that provides 25-35% better compression than JPG while maintaining the same visual quality. WebP also supports transparency (like PNG) and animation, making it more versatile for web use. Our WebP compressor can convert between these formats."
+      question: "What makes CompressLab's WebP compressor different?",
+      answer: "CompressLab features advanced technology with intelligent WebP analysis, precise size control, and support for 7 formats. Our WebP compressor offers parallel processing, real-time analytics, and can compress up to 20 WebP images simultaneously."
     },
     {
       question: "Can I convert WebP to other formats?",
-      answer: "Yes! CompressLab's WebP compressor supports converting WebP images to JPEG, PNG, and other formats. You can also convert other formats to WebP for better compression. All conversions maintain high quality while optimizing file size."
+      answer: "Yes! Our WebP compressor supports conversion between WebP and 6 other formats: AVIF, JPEG, PNG, BMP, GIF, and TIFF. Convert WebP to JPEG/PNG or vice versa with professional quality using smart optimization."
     },
     {
-      question: "What image formats does CompressLab support?",
-      answer: "CompressLab supports all major image formats including WebP, JPEG, PNG, GIF, AVIF, BMP, and TIFF. You can upload any of these formats and convert them to WebP or other formats while compressing to your desired file size."
+      question: "What image formats work with your WebP compressor?",
+      answer: "CompressLab's WebP compressor supports 7 formats: WebP (primary), AVIF, JPEG, PNG, BMP, GIF, and TIFF. Upload any format and compress/convert to WebP or other formats with intelligent optimization."
     },
     {
       question: "Is CompressLab WebP compressor free to use?",
-      answer: "Yes! CompressLab's WebP compressor is completely free to use with no limitations on file size, number of WebP images, or compression quality. There are no hidden fees, subscriptions, or watermarks added to your compressed WebP images."
+      answer: "Yes! CompressLab's advanced WebP compressor is completely free. No limitations on WebP file size, number of images (up to 20 at once), or compression quality. No subscriptions or watermarks."
     }
   ]
 

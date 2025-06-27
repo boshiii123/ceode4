@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ExternalLink, FileImage, Zap, RefreshCw, Target, Shield, Globe } from 'lucide-react'
+import { ExternalLink, FileImage, Zap, RefreshCw, Target, Shield, Globe, Cpu, BarChart3 } from 'lucide-react'
 
 // CompressLab Logo组件（Footer版本）
 const CompressorFooterLogo = () => (
@@ -8,7 +8,7 @@ const CompressorFooterLogo = () => (
     <div className="relative">
       <Image
         src="/logo.svg"
-        alt="CompressLab Logo"
+        alt="CompressLab WebP Compressor V2 Engine Logo"
         width={32}
         height={32}
         className="drop-shadow-sm"
@@ -18,7 +18,7 @@ const CompressorFooterLogo = () => (
       <div className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
         CompressLab
       </div>
-      <div className="text-xs text-gray-500 font-medium">Smart • Fast • Secure</div>
+      <div className="text-xs text-gray-500 font-medium">V2 Engine • WebP Expert • 7 Formats</div>
     </div>
   </div>
 )
@@ -34,71 +34,71 @@ const Footer = () => {
               <CompressorFooterLogo />
             </div>
             <p className="text-gray-600 mb-6 max-w-lg leading-relaxed">
-              CompressLab is a professional image compression and format conversion tool with smart algorithms.
-              Compress images to specific sizes (100KB, 200KB, 300KB) or convert between WebP, AVIF, JPEG, and PNG formats
-              while maintaining exceptional quality. 100% client-side processing ensures your privacy.
+              CompressLab is the advanced WebP compressor with V2 engine technology.
+              Compress WebP images with intelligent analysis, precise size control (100KB, 200KB, 300KB),
+              and convert between 7 formats: WebP, AVIF, JPEG, PNG, BMP, GIF, TIFF.
+              Superior WebP compression with 100% client-side processing for privacy.
             </p>
 
-            {/* Key Features */}
+            {/* Key Features - 更新为V2引擎功能 */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="flex items-center text-sm text-gray-600">
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                  <Zap className="w-4 h-4 text-blue-600" />
+                  <Cpu className="w-4 h-4 text-blue-600" />
                 </div>
-                <span>Smart Compression</span>
+                <span>V2 Engine WebP Analysis</span>
               </div>
               <div className="flex items-center text-sm text-gray-600">
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
                   <Target className="w-4 h-4 text-green-600" />
                 </div>
-                <span>Precise Size Control</span>
+                <span>Precise WebP Control</span>
               </div>
               <div className="flex items-center text-sm text-gray-600">
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                   <RefreshCw className="w-4 h-4 text-purple-600" />
                 </div>
-                <span>Format Conversion</span>
+                <span>7-Format Conversion</span>
               </div>
               <div className="flex items-center text-sm text-gray-600">
-                <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center mr-3">
-                  <Shield className="w-4 h-4 text-emerald-600" />
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                  <BarChart3 className="w-4 h-4 text-orange-600" />
                 </div>
-                <span>Privacy Protection</span>
+                <span>Live WebP Analytics</span>
               </div>
             </div>
 
-
           </div>
 
-          {/* Tools & Features */}
+          {/* Tools & Features - 更新为WebP + V2功能 */}
           <div>
             <h3 className="text-sm font-bold text-gray-900 tracking-wider uppercase mb-6 flex items-center">
               <FileImage className="w-4 h-4 mr-2 text-blue-600" />
-              Tools & Features
+              WebP Tools & Features
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
-                  <Zap className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  Smart Image Compressor
+                  <Cpu className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
+                  V2 Engine WebP Compressor
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <RefreshCw className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  Format Converter
+                  WebP Format Converter
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
                   <Target className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  Size Targeting (100KB/200KB/300KB)
+                  WebP Size Control (100KB/200KB/300KB)
                 </Link>
               </li>
               <li>
                 <Link href="/" className="group flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200">
-                  <FileImage className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
-                  Batch Processing (Up to 20 images)
+                  <BarChart3 className="w-4 h-4 mr-3 text-gray-400 group-hover:text-blue-500" />
+                  WebP Analytics & Batch Processing
                 </Link>
               </li>
             </ul>
@@ -108,25 +108,25 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-bold text-gray-900 tracking-wider uppercase mb-6 flex items-center">
               <Globe className="w-4 h-4 mr-2 text-green-600" />
-              Resources & Support
+              WebP Resources & Support
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link href="/about-webp" className="group flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200">
                   <FileImage className="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" />
-                  Image Format Guide
+                  Complete WebP Format Guide
                 </Link>
               </li>
               <li>
                 <Link href="/tutorial" className="group flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200">
                   <Target className="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" />
-                  Complete Tutorial
+                  V2 Engine WebP Tutorial
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="group flex items-center text-gray-600 hover:text-green-600 transition-colors duration-200">
                   <ExternalLink className="w-4 h-4 mr-3 text-gray-400 group-hover:text-green-500" />
-                  Contact Support
+                  WebP Compressor Support
                 </Link>
               </li>
               <li>
@@ -145,13 +145,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Supported Formats */}
+        {/* Supported Formats - 突出WebP */}
         <div className="border-t border-gray-200 mt-12 pt-8">
           <div className="text-center mb-8">
-            <h4 className="text-sm font-bold text-gray-900 mb-4">Supported Image Formats</h4>
+            <h4 className="text-sm font-bold text-gray-900 mb-4">WebP Compressor - 7 Supported Formats</h4>
             <div className="flex flex-wrap justify-center gap-3">
               {[
-                { name: 'WebP', color: 'bg-green-100 text-green-700 border-green-200' },
+                { name: 'WebP', color: 'bg-green-100 text-green-700 border-green-200 ring-2 ring-green-300', featured: true },
                 { name: 'AVIF', color: 'bg-purple-100 text-purple-700 border-purple-200' },
                 { name: 'JPEG', color: 'bg-orange-100 text-orange-700 border-orange-200' },
                 { name: 'PNG', color: 'bg-blue-100 text-blue-700 border-blue-200' },
@@ -161,12 +161,15 @@ const Footer = () => {
               ].map((format) => (
                 <span
                   key={format.name}
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${format.color}`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${format.color} ${format.featured ? 'font-bold' : ''}`}
                 >
+                  {format.featured && '⭐ '}
                   {format.name}
+                  {format.featured && ' (Primary)'}
                 </span>
               ))}
             </div>
+            <p className="text-xs text-gray-500 mt-2">V2 Engine optimized for WebP compression and conversion</p>
           </div>
         </div>
 
@@ -175,17 +178,17 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center space-x-4">
               <p className="text-gray-500 text-sm">
-                © 2024 CompressLab. All rights reserved.
+                © 2024 CompressLab WebP Compressor. All rights reserved.
               </p>
               <div className="hidden sm:flex items-center space-x-2 text-xs text-gray-400">
                 <Shield className="w-3 h-3" />
-                <span>100% Client-Side Processing</span>
+                <span>V2 Engine • Client-Side Processing</span>
               </div>
             </div>
             <div className="flex flex-wrap justify-center lg:justify-end gap-6">
               <Link href="/privacy" className="text-gray-500 hover:text-gray-700 text-sm transition-colors duration-200 flex items-center">
                 <Shield className="w-3 h-3 mr-1" />
-                Privacy Policy
+                WebP Privacy Policy
               </Link>
               <Link href="/terms" className="text-gray-500 hover:text-gray-700 text-sm transition-colors duration-200 flex items-center">
                 <FileImage className="w-3 h-3 mr-1" />

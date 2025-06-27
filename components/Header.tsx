@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, Image as ImageIcon, Download, Settings } from 'lucide-react'
+import ShareButtons from './ShareButtons'
 
 // Logo组件
 const CompressLabLogo = () => (
@@ -51,17 +52,22 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation 桌面导航 */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          <div className="hidden md:flex items-center space-x-6">
+            <nav className="flex space-x-8">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* 桌面端分享按钮 */}
+            <ShareButtons className="ml-4" />
+          </div>
 
           {/* Mobile menu button 移动端菜单按钮 */}
           <button
@@ -86,6 +92,13 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+
+              {/* 移动端分享按钮 */}
+              <div className="pt-3 border-t border-gray-100 mt-3">
+                <div className="px-3">
+                  <ShareButtons />
+                </div>
+              </div>
             </div>
           </div>
         )}

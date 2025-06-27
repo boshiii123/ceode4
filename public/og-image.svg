@@ -1,85 +1,136 @@
 <svg id="downloadable-svg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- 背景渐变 -->
-                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1"/>
-                    <stop offset="50%" style="stop-color:#e0f2fe;stop-opacity:1"/>
-                    <stop offset="100%" style="stop-color:#f0f9ff;stop-opacity:1"/>
+                <!-- 现代背景渐变 -->
+                <linearGradient id="modernBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1"/>
+                    <stop offset="30%" style="stop-color:#1e293b;stop-opacity:1"/>
+                    <stop offset="70%" style="stop-color:#334155;stop-opacity:1"/>
+                    <stop offset="100%" style="stop-color:#475569;stop-opacity:1"/>
                 </linearGradient>
                 
-                <!-- 主要品牌渐变 -->
-                <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <!-- Logo品牌渐变（与网站logo一致） -->
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1"/>
                     <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1"/>
                     <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1"/>
                 </linearGradient>
                 
-                <!-- 阴影滤镜 -->
-                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
-                    <feOffset dx="4" dy="8" result="offset"/>
-                    <feComponentTransfer>
-                        <feFuncA type="linear" slope="0.1"/>
-                    </feComponentTransfer>
-                    <feMerge> 
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/> 
+                <!-- WebP绿色渐变 -->
+                <linearGradient id="webpGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:1"/>
+                    <stop offset="50%" style="stop-color:#34d399;stop-opacity:1"/>
+                    <stop offset="100%" style="stop-color:#6ee7b7;stop-opacity:1"/>
+                </linearGradient>
+                
+                <!-- 发光效果 -->
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
                     </feMerge>
                 </filter>
+                
+                <!-- 阴影效果 -->
+                <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+                    <feOffset dx="0" dy="2" result="offset"/>
+                    <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.3"/>
+                    </feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                
+                <!-- 动态网格图案 -->
+                <pattern id="gridPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(59, 130, 246, 0.08)" stroke-width="1"/>
+                </pattern>
             </defs>
             
-            <!-- 背景 -->
-            <rect width="1200" height="630" fill="url(#bgGradient)"/>
+            <!-- 主背景 -->
+            <rect width="1200" height="630" fill="url(#modernBg)"/>
             
-            <!-- 装饰性六边形图案 -->
-            <g opacity="0.05">
-                <polygon points="100,50 130,70 130,110 100,130 70,110 70,70" fill="url(#brandGradient)"/>
-                <polygon points="1100,480 1130,500 1130,540 1100,560 1070,540 1070,500" fill="url(#brandGradient)"/>
-                <polygon points="200,450 230,470 230,510 200,530 170,510 170,470" fill="url(#brandGradient)"/>
-                <polygon points="1000,100 1030,120 1030,160 1000,180 970,160 970,120" fill="url(#brandGradient)"/>
+            <!-- 网格背景 -->
+            <rect width="1200" height="630" fill="url(#gridPattern)"/>
+            
+            <!-- 装饰性几何形状 -->
+            <g opacity="0.06">
+                <!-- 左上角六边形 -->
+                <polygon points="120,60 158,80 158,120 120,140 82,120 82,80" fill="url(#logoGradient)"/>
+                <!-- 右下角六边形 -->
+                <polygon points="1080,490 1118,510 1118,550 1080,570 1042,550 1042,510" fill="url(#webpGradient)"/>
             </g>
             
-            <!-- 主要内容区域 -->
+            <!-- 主要内容区域 - 居中对齐 -->
             <g transform="translate(600, 315)">
-                <!-- 左侧六边形图标 -->
-                <g transform="translate(-300, 0)">
-                    <!-- 六边形背景 -->
-                    <polygon points="0,-80 69,-40 69,40 0,80 -69,40 -69,-40" fill="url(#brandGradient)" filter="url(#shadow)"/>
+                
+                <!-- 左侧Logo区域 -->
+                <g transform="translate(-320, 0)">
+                    <!-- 主Logo六边形（与网站logo一致） -->
+                    <polygon points="0,-45 39,-22 39,22 0,45 -39,22 -39,-22" fill="url(#logoGradient)" filter="url(#dropShadow)"/>
                     
-                    <!-- 压缩箭头设计 -->
+                    <!-- Logo内部压缩箭头 -->
                     <g fill="white">
-                        <polygon points="0,-25 -15,-5 -8,-5 -8,15 8,15 8,-5 15,-5"/>
-                        <rect x="-22" y="25" width="44" height="8" rx="4"/>
-                        <rect x="-18" y="33" width="35" height="6" rx="3"/>
+                        <polygon points="0,-15 -11,-3 -5,-3 -5,8 5,8 5,-3 11,-3"/>
+                        <rect x="-14" y="12" width="28" height="6" rx="3"/>
+                        <rect x="-11" y="18" width="22" height="4" rx="2"/>
+                    </g>
+                    
+                    <!-- V2引擎环形装饰 -->
+                    <g stroke="url(#webpGradient)" stroke-width="2" fill="none" opacity="0.7">
+                        <circle cx="0" cy="0" r="55" stroke-dasharray="8,4"/>
+                        <circle cx="0" cy="0" r="65" stroke-dasharray="12,6" opacity="0.5"/>
+                    </g>
+                    
+                    <!-- V2标识 -->
+                    <g transform="translate(0, 85)">
+                        <rect x="-25" y="-12" width="50" height="24" rx="12" fill="url(#logoGradient)" opacity="0.9"/>
+                        <text x="0" y="2" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="700">V2</text>
                     </g>
                 </g>
                 
-                <!-- 右侧文字内容 -->
-                <g transform="translate(-50, 0)">
-                    <!-- 主标题 -->
-                    <text x="0" y="-40" text-anchor="start" fill="#1f2937" font-family="Arial, sans-serif" font-size="48" font-weight="bold">CompressLab</text>
+                <!-- 右侧文本内容区域 - 精确对齐 -->
+                <g transform="translate(-80, 0)">
+                    <!-- 主品牌标题 -->
+                    <text x="0" y="-80" text-anchor="start" fill="white" font-family="Arial, sans-serif" font-size="56" font-weight="900" filter="url(#dropShadow)">CompressLab</text>
                     
-                    <!-- 副标题 -->
-                    <text x="0" y="0" text-anchor="start" fill="url(#brandGradient)" font-family="Arial, sans-serif" font-size="32" font-weight="600">Free WebP Compressor</text>
+                    <!-- WebP专业标题 -->
+                    <text x="0" y="-30" text-anchor="start" fill="url(#webpGradient)" font-family="Arial, sans-serif" font-size="38" font-weight="700" filter="url(#glow)">Advanced WebP Compressor</text>
                     
-                    <!-- 描述文字 -->
-                    <text x="0" y="35" text-anchor="start" fill="#6b7280" font-family="Arial, sans-serif" font-size="20" font-weight="normal">Best online image compressor</text>
-                    <text x="0" y="60" text-anchor="start" fill="#6b7280" font-family="Arial, sans-serif" font-size="20" font-weight="normal">Compress WebP, JPEG, PNG &amp; AVIF</text>
+                    <!-- 核心特性描述 - 两行对齐 -->
+                    <text x="0" y="10" text-anchor="start" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="24" font-weight="500">Intelligent Analysis • Precise Control • 7 Formats</text>
+                    <text x="0" y="40" text-anchor="start" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="22" font-weight="400">Real-time Analytics • Batch Processing • 100% Private</text>
                     
-                    <!-- 特性标签 -->
-                    <g transform="translate(0, 100)">
-                        <rect x="0" y="0" width="120" height="28" rx="14" fill="url(#brandGradient)" opacity="0.1"/>
-                        <text x="60" y="18" text-anchor="middle" fill="url(#brandGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">100% Private</text>
+                    <!-- 特性标签组 - 精确对齐 -->
+                    <g transform="translate(0, 80)">
+                        <!-- WebP主打标签 -->
+                        <rect x="0" y="0" width="100" height="34" rx="17" fill="url(#webpGradient)" opacity="0.9"/>
+                        <text x="50" y="22" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">⭐ WebP</text>
                         
-                        <rect x="130" y="0" width="100" height="28" rx="14" fill="url(#brandGradient)" opacity="0.1"/>
-                        <text x="180" y="18" text-anchor="middle" fill="url(#brandGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">No Upload</text>
+                        <!-- 智能分析标签 -->
+                        <rect x="110" y="0" width="130" height="34" rx="17" fill="rgba(59, 130, 246, 0.15)" stroke="url(#logoGradient)" stroke-width="2"/>
+                        <text x="175" y="22" text-anchor="middle" fill="url(#logoGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">🧠 Smart Analysis</text>
                         
-                        <rect x="240" y="0" width="80" height="28" rx="14" fill="url(#brandGradient)" opacity="0.1"/>
-                        <text x="280" y="18" text-anchor="middle" fill="url(#brandGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">Fast</text>
+                        <!-- 7格式支持标签 -->
+                        <rect x="250" y="0" width="110" height="34" rx="17" fill="rgba(139, 92, 246, 0.15)" stroke="url(#logoGradient)" stroke-width="2"/>
+                        <text x="305" y="22" text-anchor="middle" fill="url(#logoGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">📁 7 Formats</text>
+                        
+                        <!-- 实时分析标签 -->
+                        <rect x="370" y="0" width="120" height="34" rx="17" fill="rgba(6, 182, 212, 0.15)" stroke="url(#logoGradient)" stroke-width="2"/>
+                        <text x="430" y="22" text-anchor="middle" fill="url(#logoGradient)" font-family="Arial, sans-serif" font-size="14" font-weight="600">📊 Live Analytics</text>
                     </g>
                 </g>
             </g>
             
-            <!-- 底部网站URL -->
-            <text x="600" y="580" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="18" font-weight="normal">tinyimgtool.com</text>
+            <!-- 底部品牌信息 - 居中对齐 -->
+            <g transform="translate(600, 565)">
+                <text x="0" y="0" text-anchor="middle" fill="#94a3b8" font-family="Arial, sans-serif" font-size="20" font-weight="600">tinyimgtool.com</text>
+                <text x="0" y="25" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="16" font-weight="400">Professional WebP Compression with V2 Engine Technology</text>
+            </g>
+            
+            <!-- 版权标识 -->
+            <text x="60" y="605" text-anchor="start" fill="#475569" font-family="Arial, sans-serif" font-size="14" font-weight="400">© 2024 CompressLab</text>
         </svg>

@@ -18,7 +18,7 @@ const nextConfig = {
   // 性能优化
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error'] // 生产环境移除console，但保留error
+      exclude: ['error', 'warn'] // 生产环境移除console，但保留error和warn
     } : false,
   },
 
@@ -55,6 +55,29 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+      // 静态资源缓存优化
+      {
+        source: '/favicon.svg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/logo.svg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, immutable',
           },
         ],
       },

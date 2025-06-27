@@ -8,24 +8,30 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'WebP Compressor - Free Online WebP Image Compressor | CompressLab',
+    default: 'Compressor WebP Online Free - Reduce File Size | CompressLab',
     template: '%s | CompressLab WebP Compressor'
   },
-  description: 'Free WebP compressor by CompressLab. Best online WebP image compressor to compress WebP files, reduce WebP file size, and convert WebP to JPEG/PNG. Professional WebP compression tool.',
+  description: 'Convert WebP to JPG, PNG, AVIF instantly. Batch process up to 20 images. No upload required, 100% browser-based WebP optimization tool.',
   keywords: [
     'webp compressor',
     'compressor webp',
+    'compress webp online',
+    'webp compression tool',
     'compress webp',
     'webp image compressor',
     'online webp compressor',
     'webp file compressor',
-    'compress webp online',
-    'webp compression tool',
     'reduce webp file size',
+    'webp optimizer',
+    'webp to avif converter',
     'webp to jpeg converter',
     'webp to png converter',
-    'CompressLab',
-    'free webp compressor'
+    'webp to jpg',
+    'jpg to webp',
+    'batch webp compressor',
+    'optimize webp images',
+    'free webp compressor',
+    'CompressLab'
   ],
   authors: [{ name: 'CompressLab' }],
   creator: 'CompressLab',
@@ -40,8 +46,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'WebP Compressor - Free Online WebP Image Compressor | CompressLab',
-    description: 'Free WebP compressor by CompressLab. Best online WebP image compressor to compress WebP files, reduce WebP file size, and convert WebP to JPEG/PNG.',
+    title: 'Free WebP Compressor - Reduce WebP File Size Online',
+    description: 'Compress WebP images online, convert WebP to JPG/PNG/AVIF. Fast batch processing, no upload required. Free WebP optimization tool.',
     url: 'https://tinyimgtool.com',
     siteName: 'CompressLab WebP Compressor',
     images: [
@@ -49,7 +55,7 @@ export const metadata: Metadata = {
         url: '/og-image.svg',
         width: 1200,
         height: 630,
-        alt: 'CompressLab - Free WebP Compressor Online',
+        alt: 'CompressLab - Best Free WebP Compressor Online',
       },
     ],
     locale: 'en_US',
@@ -57,8 +63,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WebP Compressor - Free Online WebP Image Compressor | CompressLab',
-    description: 'Free WebP compressor by CompressLab. Best online WebP image compressor to compress WebP files and reduce file size.',
+    title: 'Free WebP Compressor - Convert & Compress WebP Online',
+    description: 'Compress WebP images, convert to JPG/PNG/AVIF. Batch process up to 20 files. No upload, 100% free WebP tool.',
     images: ['/og-image.svg'],
   },
   robots: {
@@ -79,7 +85,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Structured Data for SEO
+  // Enhanced Structured Data for Smart Compression SEO
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -88,7 +94,7 @@ export default function RootLayout({
         "@id": "https://tinyimgtool.com/#webapp",
         "name": "CompressLab WebP Compressor",
         "url": "https://tinyimgtool.com",
-        "description": "Free online WebP compressor tool to compress WebP images, reduce file size, and convert between image formats",
+        "description": "Free WebP compressor online. Compress WebP images, reduce file size, and convert WebP to JPG, PNG, AVIF, and other formats",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "Web Browser",
         "permissions": "No upload required - 100% client-side processing",
@@ -98,24 +104,29 @@ export default function RootLayout({
           "priceCurrency": "USD"
         },
         "featureList": [
-          "WebP image compression",
-          "Format conversion (WebP, JPEG, PNG, AVIF)",
-          "Batch processing up to 20 images",
-          "Precise size control (100KB, 200KB, 300KB)",
-          "Client-side processing for privacy"
+          "Free WebP compression online",
+          "Reduce WebP file size (100KB, 200KB, 300KB)",
+          "Convert WebP to JPG, PNG, AVIF, BMP, GIF, TIFF",
+          "Batch compress up to 20 WebP images",
+          "No upload required - client-side processing",
+          "WebP optimizer with compression analytics",
+          "Online WebP compressor tool"
         ],
-        "screenshot": "https://tinyimgtool.com/og-image.svg"
+        "screenshot": "https://tinyimgtool.com/og-image.svg",
+        "softwareVersion": "2.0.0",
+        "releaseNotes": "Free WebP compressor with batch processing and 7-format conversion support"
       },
       {
         "@type": "SoftwareApplication",
         "@id": "https://tinyimgtool.com/#software",
-        "name": "CompressLab Image Compressor",
+        "name": "CompressLab WebP Compressor",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any",
         "permissions": "No server upload required",
         "downloadUrl": "https://tinyimgtool.com",
-        "softwareVersion": "1.0.0",
-        "releaseNotes": "Professional image compression with precise size control"
+        "softwareVersion": "2.0.0",
+        "releaseNotes": "Free online WebP compressor with batch processing and format conversion",
+        "keywords": "webp compressor, compress webp online, webp to jpg, webp optimizer, format conversion"
       },
       {
         "@type": "Organization",
@@ -123,12 +134,13 @@ export default function RootLayout({
         "name": "CompressLab",
         "url": "https://tinyimgtool.com",
         "logo": "https://tinyimgtool.com/logo.svg",
+        "description": "Leading free WebP compression tool for online image optimization",
         "sameAs": []
       },
       {
         "@type": "WebSite",
         "@id": "https://tinyimgtool.com/#website",
-        "name": "CompressLab - Free WebP Compressor",
+        "name": "CompressLab - Free WebP Compressor & Converter Online",
         "url": "https://tinyimgtool.com",
         "publisher": {
           "@id": "https://tinyimgtool.com/#organization"
@@ -137,6 +149,24 @@ export default function RootLayout({
           "@type": "SearchAction",
           "target": "https://tinyimgtool.com/?q={search_term_string}",
           "query-input": "required name=search_term_string"
+        },
+        "about": {
+          "@type": "Thing",
+          "name": "WebP Compression Technology",
+          "description": "Free WebP compression and format conversion online"
+        }
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://tinyimgtool.com/#article",
+        "headline": "Free WebP Compression Online",
+        "description": "Learn how to compress WebP images online, reduce file size, and convert WebP to other formats",
+        "keywords": ["webp compressor", "compress webp online", "webp to jpg", "webp optimizer", "image compression"],
+        "author": {
+          "@id": "https://tinyimgtool.com/#organization"
+        },
+        "publisher": {
+          "@id": "https://tinyimgtool.com/#organization"
         }
       }
     ]
@@ -151,6 +181,21 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* Enhanced SEO Meta Tags for WebP Compressor */}
+        <meta name="subject" content="Free WebP Compressor Online Tool" />
+        <meta name="language" content="EN" />
+        <meta name="category" content="Technology, Image Compression, WebP Tools" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="distribution" content="Global" />
+        <meta name="rating" content="General" />
+        <meta name="target" content="all" />
+        <meta name="audience" content="Developers, Designers, Content Creators" />
+
+        {/* WebP Specific Meta Tags */}
+        <meta name="application-name" content="CompressLab WebP Compressor" />
+        <meta name="msapplication-tooltip" content="Free WebP Compressor - Compress & Convert WebP Online" />
+        <meta name="msapplication-task" content="name=Compress WebP;action-uri=/;icon-uri=/favicon.svg" />
 
         <script
           type="application/ld+json"
